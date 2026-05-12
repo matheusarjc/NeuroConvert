@@ -1,0 +1,20 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/email-queue",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/daily-snapshot",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/usage-monitor",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/health",
+      "schedule": "0 5 * * *"
+    }
+  ]
+}

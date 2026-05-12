@@ -464,6 +464,10 @@ CREATE TABLE daily_metrics (
 
 ## 5. Deploy na Vercel
 
+**Domínio próprio é opcional.** Até comprares um domínio, usa a URL de produção que a Vercel atribui (`https://<projeto>.vercel.app`) em `NEXT_PUBLIC_URL`, no webhook de teste Stripe e em links de email. Mais tarde, aponta o domínio em **Project → Settings → Domains** e actualiza `NEXT_PUBLIC_URL`.
+
+**Plano Hobby:** a Vercel limita o número de crons activos — se o deploy falhar por quota, reduz entradas em `vercel.json` ou faz upgrade.
+
 ```bash
 npm install -g vercel
 vercel          # Deploy inicial
@@ -484,20 +488,25 @@ vercel env add RESEND_FROM
 vercel env add ADMIN_SECRET
 vercel env add ADMIN_EMAIL
 vercel env add NEXT_PUBLIC_URL
+vercel env add CRON_SECRET
 ```
+
+`CRON_SECRET` na Vercel é o que permite o header automático `Authorization: Bearer …` nos crons. Podes repetir o mesmo valor que `ADMIN_SECRET`. Chamadas manuais (`curl`) podem usar `Authorization: Bearer` com `CRON_SECRET` ou `ADMIN_SECRET` (útil em dev local sem `CRON_SECRET`).
 
 ### `vercel.json` — crons de automação
 
 ```json
 {
   "crons": [
-    { "path": "/api/cron/email-queue",    "schedule": "0 * * * *"  },
+    { "path": "/api/cron/email-queue",    "schedule": "0 4 * * *"  },
     { "path": "/api/cron/daily-snapshot", "schedule": "0 3 * * *"  },
     { "path": "/api/cron/usage-monitor",  "schedule": "0 9 * * *"  },
-    { "path": "/api/health",              "schedule": "*/5 * * * *" }
+    { "path": "/api/health",              "schedule": "0 5 * * *"  }
   ]
 }
 ```
+
+No **plano Hobby**, cada cron só pode correr **no máximo uma vez por dia** (expressões como `0 * * * *` ou `*/5 * * * *` bloqueiam o deploy). Os horários acima estão ajustados para isso; em **Pro** podes voltar a agendamentos mais frequentes (ex.: fila de email hora a hora, health a cada 5 min).
 
 ---
 

@@ -512,25 +512,65 @@ No **plano Hobby**, cada cron só pode correr **no máximo uma vez por dia** (ex
 
 ## 6. Contas e serviços necessários
 
-| Serviço | Link | Custo inicial | O que faz |
-|---------|------|---------------|-----------|
-| Anthropic | console.anthropic.com | Pay-per-use (~$0.02/análise) | IA de neuromarketing |
-| Firecrawl | firecrawl.dev | 500 scrapes grátis | Scraping de URLs |
-| Stripe | dashboard.stripe.com | 2,9% por transação | Pagamentos e assinaturas |
-| Supabase | supabase.com | Grátis (500MB) | Banco de dados |
-| Vercel | vercel.com | Grátis | Hosting e crons |
-| Resend | resend.com | 3.000 emails/mês grátis | Emails transacionais |
-| UptimeRobot | uptimerobot.com | Grátis | Monitor de disponibilidade |
+Checklist para **staging** e **produção** (marca cada linha ao validar). Não é necessário domínio próprio no arranque: usa `https://<projeto>.vercel.app` em `NEXT_PUBLIC_URL` e no endpoint do webhook Stripe até teres DNS.
 
-**Custo mensal com zero clientes: R$ 0**
-**Com 50 clientes Pro: ~R$ 1.200 infra → R$ 14.850 receita → margem 92%**
+### 6.1 Serviços externos (conta + função)
+
+| Serviço | Link | Custo inicial | O que faz no NeuroConvert |
+|--------|------|----------------|----------------------------|
+| Anthropic | [console.anthropic.com](https://console.anthropic.com) | Pay-per-use (~US$0,02/análise) | Laudo em `/api/analyze` |
+| Firecrawl | [firecrawl.dev](https://www.firecrawl.dev/) | Plano free (~500 scrapes/mês) | Scraping de URL na análise |
+| Stripe | [dashboard.stripe.com](https://dashboard.stripe.com) | % por transação | Checkout Pro + webhook `/api/webhook` |
+| Supabase | [supabase.com](https://supabase.com) | Free tier (limites de DB/banda) | Postgres, Auth, `system_events`, RPC `complete_analysis` |
+| Vercel | [vercel.com](https://vercel.com) | Free/Hobby (limites de crons) | Hosting, build, crons em `vercel.json` |
+| Resend | [resend.com](https://resend.com) | ~3.000 emails/mês grátis | Envio real via cron `email-queue` (`lib/email-delivery.ts`) |
+| UptimeRobot (opcional) | [uptimerobot.com](https://uptimerobot.com) | Free | `GET /api/health` em intervalo que quiseres |
+| Observabilidade | *(Supabase)* | Incluído no projeto | `logEvent()` → tabela `system_events` (sem Slack) |
+
+### 6.2 Segredos e variáveis (produção)
+
+Copiar valores para **Vercel → Project → Settings → Environment Variables** (Production; opcionalmente Preview com o mesmo conjunto).
+
+| Variável | Onde obter / notas |
+|----------|---------------------|
+| `ANTHROPIC_API_KEY` | Console Anthropic → API keys |
+| `ANTHROPIC_MODEL` | Opcional; default no código |
+| `FIRECRAWL_API_KEY` | Dashboard Firecrawl |
+| `STRIPE_SECRET_KEY` | Stripe → Developers → API keys (`sk_live_…` ou `sk_test_…`) |
+| `STRIPE_WEBHOOK_SECRET` | Stripe → Webhooks → endpoint `…/api/webhook` → Signing secret (`whsec_…`). **Diferente** do `stripe listen` local |
+| `STRIPE_PRICE_PRO` | Stripe → Produtos → preço mensal Pro → **Price ID** (`price_…`) |
+| `SUPABASE_URL` | Supabase → Settings → API → Project URL (sem `/rest/v1` no path) |
+| `SUPABASE_ANON_KEY` | Supabase → anon `public` |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → **service_role** (só servidor; nunca no cliente) |
+| `RESEND_API_KEY` | Resend → API Keys |
+| `RESEND_FROM` | Domínio verificado no Resend (ex. `noreply@…`) |
+| `NEXT_PUBLIC_URL` | URL pública da app (ex. `https://neuroconvert.vercel.app`) |
+| `ADMIN_SECRET` | Geras tu; protege `/admin` e pode reutilizar em testes de cron |
+| `ADMIN_EMAIL` | O teu email (relatórios / operação) |
+| `CRON_SECRET` | Geras tu na Vercel; a plataforma envia `Authorization: Bearer` nos crons. Pode ser igual a `ADMIN_SECRET` |
+| `ANALYZE_ALLOW_BODY_USER_ID` | Em prod: `false` (JWT obrigatório em `/api/analyze`) |
+
+Ver também `.env.example` e `context.md`.
+
+### 6.3 Limites de plano grátis (alertas operacionais)
+
+| Recurso | Limite típico (free / hobby) | O que fazer ao aproximar |
+|--------|------------------------------|---------------------------|
+| Firecrawl | ~500 scrapes/mês | Upgrade ou reduzir análises; cron `usage-monitor` regista em `system_events` |
+| Resend | ~3.000 emails/mês | Upgrade; fila `email_queue` + métricas no mesmo cron |
+| Vercel Hobby | Crons **no máximo 1× por dia** cada | `vercel.json` actual; Pro permite horários mais frequentes |
+| Supabase free | DB / banda / auth limits | Dashboard → usage; upgrade se necessário |
+| Stripe | Modo test vs live | Chaves e webhooks **separados** por modo |
+
+**Custo mensal com zero clientes:** pode ser **R$ 0** se ficares só nos free tiers.  
+**Com tráfego real:** Anthropic + Firecrawl escalam com uso; revisa [Anthropic](https://console.anthropic.com) e [Firecrawl pricing](https://www.firecrawl.dev/pricing).
 
 ---
 
 ## 7. Fluxo completo do usuário
 
 ```
-1. Acessa neuroconvert.com.br
+1. Acessa o site (domínio próprio ou `*.vercel.app`)
 2. Cola URL + seleciona setor → Gerar Laudo
 3. Firecrawl scrapa a página real
 4. Claude gera o laudo de neuromarketing (20s)
@@ -545,7 +585,7 @@ No **plano Hobby**, cada cron só pode correr **no máximo uma vez por dia** (ex
 
 ## 8. Sistema de Mensageria
 
-O sistema cobre três frentes: emails transacionais para o usuário em cada etapa da jornada, alertas internos para você como operador, e uma fila de emails agendados para sequências automáticas de onboarding e recuperação de churn.
+O sistema cobre: **emails** transacionais e fila (`email_queue` + cron), **observabilidade** (`logEvent` / `system_events` no Supabase), e sequências agendadas (churn, etc.).
 
 ### 8.1 Biblioteca de emails — `lib/email.ts`
 

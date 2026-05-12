@@ -10,7 +10,7 @@ SaaS B2B de otimização de conversão com neuromarketing. O usuário cola uma U
 - Pro: R$ 297/mês — 10 análises (Checkout Stripe na app)
 - Agência: sob consulta — ilimitado + white-label (contrato manual; plano `agency` na BD / webhook se usares Stripe à parte)
 
-**Operação:** 1 pessoa (founder). Priorizar simplicidade, confiabilidade e menor custo de manutenção.
+**Operação:** 1 pessoa (founder). Priorizar simplicidade, confiabilidade e menor custo de manutenção. Checklist de contas, envs e limites de plano: **neuroconvert-deploy-guide.md §6**.
 
 ---
 

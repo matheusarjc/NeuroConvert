@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { background: #0A0A0A; padding: 20px; display: flex; flex-direction: column; gap: 16px; font-family: 'DM Sans', sans-serif; }
+  .row { display: flex; gap: 10px; align-items: flex-end; }
+  .swatch { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .block { height: 64px; border-radius: 6px; display: flex; align-items: flex-end; padding: 6px 8px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.4); }
+  .name { font-size: 11px; font-weight: 500; color: #6B7280; }
+  .section { font-size: 10px; font-weight: 700; color: #4B5563; text-transform: uppercase; letter-spacing: 0.6px; }
+</style>
+</head>
+<body>
+<div class="section">Primary — Emerald</div>
+<div class="row">
+  <div class="swatch">
+    <div class="block" style="background:#0F5C43">#0F5C43</div>
+    <div class="name">deeper</div>
+  </div>
+  <div class="swatch">
+    <div class="block" style="background:#157A5B">#157A5B</div>
+    <div class="name">dark</div>
+  </div>
+  <div class="swatch">
+    <div class="block" style="background:#1D9E75;border:1.5px solid rgba(255,255,255,0.15)">#1D9E75</div>
+    <div class="name" style="color:#FFFFFF;font-weight:700">primary ●</div>
+  </div>
+  <div class="swatch">
+    <div class="block" style="background:#25C98F">#25C98F</div>
+    <div class="name">light</div>
+  </div>
+  <div class="swatch">
+    <div class="block" style="background:rgba(29,158,117,0.12);border:1px solid rgba(29,158,117,0.2)">#1D9E7520</div>
+    <div class="name">muted</div>
+  </div>
+</div>
+<div class="section">Glow</div>
+<div style="height:44px;border-radius:6px;background:#141414;border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;box-shadow:0 0 24px rgba(29,158,117,0.35)">
+  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#1D9E75">drop-shadow(0 0 8px rgba(29,158,117,0.55))</span>
+</div>
+</body>
+</html>

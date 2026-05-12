@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { background: #0A0A0A; padding: 20px; display: flex; flex-direction: column; gap: 14px; font-family: 'DM Sans', sans-serif; }
+  .row { display: flex; gap: 8px; }
+  .swatch { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  .block { height: 52px; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.35); display:flex; align-items:flex-end; padding: 5px 7px; }
+  .name { font-size: 10px; font-weight: 500; color: #6B7280; }
+  .section { font-size: 10px; font-weight: 700; color: #4B5563; text-transform: uppercase; letter-spacing: 0.6px; }
+</style>
+</head>
+<body>
+<div class="section">Surface scale</div>
+<div class="row">
+  <div class="swatch">
+    <div class="block" style="background:#0A0A0A;border:1px solid rgba(255,255,255,0.08)">#0A0A0A</div>
+    <div class="name">bg-base</div>
+  </div>
+  <div class="swatch">
+    <div class="block" style="background:#141414">#141414</div>
+    <div class="name">bg-surface</div>
+  </div>
+  <div class="swatch">
+    <div class="block" style="background:#1C1C1C">#1C1C1C</div>
+    <div class="name">bg-elevated</div>
+  </div>
+  <div class="swatch">
+    <div class="block" style="background:#242424">#242424</div>
+    <div class="name">bg-raised</div>
+  </div>
+  <div class="swatch">
+    <div class="block" style="background:rgba(255,255,255,0.08)">rgba(255,255,255,.08)</div>
+    <div class="name">border</div>
+  </div>
+  <div class="swatch">
+    <div class="block" style="background:rgba(255,255,255,0.14)">rgba(255,255,255,.14)</div>
+    <div class="name">border-strong</div>
+  </div>
+</div>
+<div class="section">Foreground scale</div>
+<div class="row">
+  <div style="flex:1;padding:10px 12px;background:#141414;border:1px solid rgba(255,255,255,0.07);border-radius:6px;display:flex;justify-content:space-between;align-items:center">
+    <span style="font-size:12px;color:#FFFFFF">fg-1 — Primary</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#4B5563">#FFFFFF</span>
+  </div>
+  <div style="flex:1;padding:10px 12px;background:#141414;border:1px solid rgba(255,255,255,0.07);border-radius:6px;display:flex;justify-content:space-between;align-items:center">
+    <span style="font-size:12px;color:#9CA3AF">fg-2 — Secondary</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#4B5563">#9CA3AF</span>
+  </div>
+  <div style="flex:1;padding:10px 12px;background:#141414;border:1px solid rgba(255,255,255,0.07);border-radius:6px;display:flex;justify-content:space-between;align-items:center">
+    <span style="font-size:12px;color:#4B5563">fg-3 — Muted</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#4B5563">#4B5563</span>
+  </div>
+</div>
+</body>
+</html>

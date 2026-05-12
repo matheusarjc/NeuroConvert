@@ -1,0 +1,322 @@
+/*
+ * NeuroConvert Design System — CSS Custom Properties
+ * Import this file into any HTML artifact to access the full token set.
+ *
+ * Fonts loaded via Google Fonts CDN (add to <head>):
+ * <link rel="preconnect" href="https://fonts.googleapis.com">
+ * <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ * <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ─────────────────────────────────────────
+     BACKGROUND SCALE
+  ───────────────────────────────────────── */
+  --color-bg-base:     #0A0A0A; /* Page / outer shell */
+  --color-bg-surface:  #141414; /* Cards, sidebars, modals */
+  --color-bg-elevated: #1C1C1C; /* Inputs, dropdowns, popovers */
+  --color-bg-raised:   #242424; /* Hover state on surfaces */
+  --color-bg-overlay:  rgba(10, 10, 10, 0.85); /* Frosted nav, backdrops */
+
+  /* ─────────────────────────────────────────
+     PRIMARY — Emerald Green
+  ───────────────────────────────────────── */
+  --color-primary:        #1D9E75;
+  --color-primary-light:  #25C98F;
+  --color-primary-dark:   #157A5B;
+  --color-primary-deeper: #0F5C43;
+  --color-primary-muted:  rgba(29, 158, 117, 0.12);
+  --color-primary-glow:   rgba(29, 158, 117, 0.30);
+
+  /* ─────────────────────────────────────────
+     SEMANTIC — Score / Severity Colors
+  ───────────────────────────────────────── */
+  /* Critical: Score 0–39 */
+  --color-critical:       #EF4444;
+  --color-critical-light: #FCA5A5;
+  --color-critical-muted: rgba(239, 68, 68, 0.12);
+
+  /* Warning: Score 40–69 */
+  --color-warning:        #F59E0B;
+  --color-warning-light:  #FCD34D;
+  --color-warning-muted:  rgba(245, 158, 11, 0.12);
+
+  /* Good: Score 70–100 */
+  --color-good:           #22C55E;
+  --color-good-light:     #86EFAC;
+  --color-good-muted:     rgba(34, 197, 94, 0.12);
+
+  /* Info / Neutral accent */
+  --color-info:           #38BDF8;
+  --color-info-muted:     rgba(56, 189, 248, 0.12);
+
+  /* ─────────────────────────────────────────
+     BORDERS
+  ───────────────────────────────────────── */
+  --color-border:        rgba(255, 255, 255, 0.08);
+  --color-border-strong:  rgba(255, 255, 255, 0.14);
+  --color-border-subtle:  rgba(255, 255, 255, 0.04);
+
+  /* ─────────────────────────────────────────
+     FOREGROUND / TEXT
+  ───────────────────────────────────────── */
+  --color-fg-1:     #FFFFFF;  /* Primary text */
+  --color-fg-2:     #9CA3AF;  /* Secondary text, labels */
+  --color-fg-3:     #4B5563;  /* Disabled, placeholders */
+  --color-fg-inv:   #0A0A0A;  /* Text on light/primary bg */
+
+  /* ─────────────────────────────────────────
+     TYPOGRAPHY — Font Families
+  ───────────────────────────────────────── */
+  --font-display: 'Space Grotesk', system-ui, sans-serif; /* scores, display, numbers */
+  --font-ui:      'DM Sans', system-ui, sans-serif;       /* interface, body, labels */
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace; /* IDs, code, raw values */
+
+  /* ─────────────────────────────────────────
+     TYPOGRAPHY — Scale
+  ───────────────────────────────────────── */
+  --text-score:   72px; /* Hero score number */
+  --text-display: 40px; /* Page display titles */
+  --text-h1:      28px; /* Section headers */
+  --text-h2:      22px; /* Card headers */
+  --text-h3:      18px; /* Sub-headers */
+  --text-h4:      16px; /* Small headers */
+  --text-body:    14px; /* Body text */
+  --text-small:   12px; /* Labels, captions */
+  --text-micro:   11px; /* Tags, badges */
+
+  /* ─────────────────────────────────────────
+     TYPOGRAPHY — Weights
+  ───────────────────────────────────────── */
+  --weight-regular:   400;
+  --weight-medium:    500;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+
+  /* ─────────────────────────────────────────
+     TYPOGRAPHY — Line Heights
+  ───────────────────────────────────────── */
+  --leading-tight:  1.1;
+  --leading-snug:   1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.7;
+
+  /* ─────────────────────────────────────────
+     SPACING SCALE (base 4px)
+  ───────────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* ─────────────────────────────────────────
+     CORNER RADII
+  ───────────────────────────────────────── */
+  --radius-xs:   4px;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;
+  --radius-full: 9999px;
+
+  /* ─────────────────────────────────────────
+     SHADOWS / ELEVATION
+  ───────────────────────────────────────── */
+  --shadow-0: none;
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.40);
+  --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.50);
+  --shadow-3: 0 8px 32px rgba(0, 0, 0, 0.60), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  --shadow-glow-primary:   0 0 20px rgba(29, 158, 117, 0.30);
+  --shadow-glow-critical:  0 0 20px rgba(239, 68, 68, 0.30);
+  --shadow-glow-warning:   0 0 20px rgba(245, 158, 11, 0.30);
+  --shadow-glow-good:      0 0 20px rgba(34, 197, 94, 0.30);
+
+  /* ─────────────────────────────────────────
+     ANIMATION
+  ───────────────────────────────────────── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:      cubic-bezier(0, 0, 0.2, 1);
+
+  --duration-fast:   150ms;
+  --duration-normal: 300ms;
+  --duration-slow:   600ms;
+  --duration-score:  800ms;
+
+  /* ─────────────────────────────────────────
+     Z-INDEX SCALE
+  ───────────────────────────────────────── */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-sticky:  100;
+  --z-overlay: 200;
+  --z-modal:   300;
+  --z-toast:   400;
+}
+
+/* ─────────────────────────────────────────
+   SEMANTIC / COMPONENT ALIASES
+───────────────────────────────────────── */
+:root {
+  /* Page */
+  --page-bg:   var(--color-bg-base);
+  --page-text: var(--color-fg-1);
+
+  /* Card */
+  --card-bg:      var(--color-bg-surface);
+  --card-border:  var(--color-border);
+  --card-radius:  var(--radius-md);
+  --card-padding: var(--space-6);
+  --card-shadow:  var(--shadow-1);
+
+  /* Input */
+  --input-bg:          var(--color-bg-elevated);
+  --input-border:      var(--color-border);
+  --input-border-focus: var(--color-primary);
+  --input-text:        var(--color-fg-1);
+  --input-placeholder: var(--color-fg-3);
+  --input-radius:      var(--radius-sm);
+
+  /* Button Primary */
+  --btn-primary-bg:     var(--color-primary);
+  --btn-primary-text:   #fff;
+  --btn-primary-hover:  var(--color-primary-light);
+  --btn-primary-active: var(--color-primary-dark);
+
+  /* Button Secondary */
+  --btn-secondary-bg:    var(--color-bg-elevated);
+  --btn-secondary-text:  var(--color-fg-1);
+  --btn-secondary-border: var(--color-border-strong);
+  --btn-secondary-hover: var(--color-bg-raised);
+
+  /* Nav */
+  --nav-bg:          var(--color-bg-surface);
+  --nav-border:      var(--color-border);
+  --nav-item-active: var(--color-primary-muted);
+  --nav-icon-active: var(--color-primary);
+  --nav-icon:        var(--color-fg-2);
+}
+
+/* ─────────────────────────────────────────
+   BASE RESETS + GLOBAL STYLES
+───────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-fg-1);
+  background: var(--color-bg-base);
+}
+
+/* ─────────────────────────────────────────
+   SEMANTIC TYPOGRAPHY CLASSES
+───────────────────────────────────────── */
+.text-score {
+  font-family: var(--font-display);
+  font-size: var(--text-score);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: -2px;
+}
+
+.text-display {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: -1px;
+}
+
+h1, .text-h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-h1);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.5px;
+}
+
+h2, .text-h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+  letter-spacing: -0.3px;
+}
+
+h3, .text-h3 {
+  font-family: var(--font-ui);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-snug);
+}
+
+h4, .text-h4 {
+  font-family: var(--font-ui);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-snug);
+}
+
+p, .text-body {
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  color: var(--color-fg-2);
+}
+
+.text-small {
+  font-family: var(--font-ui);
+  font-size: var(--text-small);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+}
+
+.text-micro {
+  font-family: var(--font-ui);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+code, .text-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-small);
+  font-weight: var(--weight-regular);
+}
+
+/* ─────────────────────────────────────────
+   SCORE COLOR UTILITIES
+───────────────────────────────────────── */
+.score-critical { color: var(--color-critical); }
+.score-warning  { color: var(--color-warning); }
+.score-good     { color: var(--color-good); }
+.score-primary  { color: var(--color-primary); }
+
+.bg-score-critical { background: var(--color-critical-muted); color: var(--color-critical); }
+.bg-score-warning  { background: var(--color-warning-muted);  color: var(--color-warning); }
+.bg-score-good     { background: var(--color-good-muted);     color: var(--color-good); }

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroConvert — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0A0A0A; color: #FFFFFF; -webkit-font-smoothing: antialiased; overflow: hidden; }
+  ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 3px; }
+  input, textarea, select { font-family: 'DM Sans', sans-serif; }
+  select, option { background: #0C1525; color: #F8FAFC; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="DashOnboarding.jsx"></script>
+<script type="text/babel" src="DashComparisonView.jsx"></script>
+<script type="text/babel" src="DashShell.jsx"></script>
+<script type="text/babel" src="DashHome.jsx"></script>
+<script type="text/babel" src="DashLaudoDetail.jsx"></script>
+<script type="text/babel" src="DashNewAnalysis.jsx"></script>
+<script type="text/babel">
+
+// ── Laudos list screen ────────────────────────────────────
+const LaudosList = ({ onOpen }) => {
+  const [q, setQ] = React.useState('');
+  const [filter, setFilter] = React.useState('Todos');
+  const filtered = LAUDOS.filter(l => {
+    const matchQ = l.name.toLowerCase().includes(q.toLowerCase()) || l.id.toLowerCase().includes(q.toLowerCase());
+    const matchF = filter === 'Todos' || l.label === filter;
+    return matchQ && matchF;
+  });
+
+  const card = { background: '#0C1525', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 20 };
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 900 }}>
+      <div style={{ display: 'flex', gap: 10 }}>
+        <div style={{ position: 'relative', flex: 1 }}>
+          <svg style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)' }} width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input value={q} onChange={e => setQ(e.target.value)} placeholder="Buscar laudos…"
+            style={{ width: '100%', height: 36, padding: '0 12px 0 30px', background: '#0C1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 8, fontSize: 13, color: '#F8FAFC', outline: 'none' }}
+            onFocus={e => e.target.style.borderColor='rgba(29,158,117,0.4)'}
+            onBlur={e => e.target.style.borderColor='rgba(255,255,255,0.07)'}/>
+        </div>
+        {['Todos','Crítico','Atenção','Bom'].map(f => (
+          <button key={f} onClick={() => setFilter(f)} style={{ height: 36, padding: '0 14px', borderRadius: 8, border: '1px solid', cursor: 'pointer', transition: 'all 150ms', fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 500, borderColor: filter===f ? 'rgba(29,158,117,0.4)' : 'rgba(255,255,255,0.07)', background: filter===f ? 'rgba(29,158,117,0.08)' : 'transparent', color: filter===f ? '#1D9E75' : '#475569' }}>{f}</button>
+        ))}
+      </div>
+
+      <div style={{ ...card, padding: 0, overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 80px 110px 90px auto', padding: '10px 20px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+          {['Página', 'Score', 'Status', 'Achados', 'Data'].map(h => (
+            <div key={h} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 600, color: '#2D3E52', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{h}</div>
+          ))}
+        </div>
+        {filtered.map((l, i) => (
+          <div key={l.id} onClick={() => onOpen(l)}
+            style={{ display: 'grid', gridTemplateColumns: '2fr 80px 110px 90px auto', padding: '13px 20px', borderBottom: i < filtered.length-1 ? '1px solid rgba(255,255,255,0.03)' : 'none', cursor: 'pointer', transition: 'background 150ms', alignItems: 'center' }}
+            onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.02)'}
+            onMouseLeave={e => e.currentTarget.style.background='transparent'}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <MiniGauge score={l.score} color={l.color} size={34} stroke={4}/>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#F8FAFC' }}>{l.name}</div>
+                <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: '#2D3E52', marginTop: 1 }}>{l.id}</div>
+              </div>
+            </div>
+            <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 20, fontWeight: 700, color: l.color }}>{l.score}</span>
+            <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, color: l.color, background: `${l.color}14`, border: `1px solid ${l.color}30`, borderRadius: 9999, padding: '2px 10px', width: 'fit-content' }}>{l.label}</span>
+            <div style={{ display: 'flex', gap: 6 }}>
+              {l.critical > 0 && <span style={{ fontSize: 11, color: '#EF4444' }}>●&thinsp;{l.critical}</span>}
+              {l.warning > 0 && <span style={{ fontSize: 11, color: '#F59E0B' }}>●&thinsp;{l.warning}</span>}
+            </div>
+            <span style={{ fontSize: 12, color: '#475569' }}>{l.date}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// ── App root ──────────────────────────────────────────────
+const App = () => {
+  const [screen, setScreen] = React.useState('onboarding');
+  const [activeLaudo, setActiveLaudo] = React.useState(null);
+
+  const openLaudo = (laudo) => {
+    const full = LAUDOS.find(l => l.id === laudo.id) || LAUDOS[0];
+    setActiveLaudo(full);
+    // First laudo has a previous analysis — show comparison
+    setScreen(full.id === 'NC-00847' ? 'comparison' : 'detail');
+  };
+
+  const content = {
+    onboarding: <DashOnboarding onComplete={(dest) => setScreen(dest)}/>,
+    home:       <DashHome onOpenLaudo={openLaudo} onNewAnalysis={() => setScreen('new')}/>,
+    laudos:     <LaudosList onOpen={openLaudo}/>,
+    new:        <DashNewAnalysis onComplete={() => openLaudo(LAUDOS[0])}/>,
+    detail:     activeLaudo ? <DashLaudoDetail laudo={activeLaudo} onBack={() => setScreen('laudos')}/> : null,
+    comparison: <DashComparisonView
+                  onViewFull={() => setScreen('detail')}
+                  onBack={() => setScreen('laudos')}/>,
+  }[screen];
+
+  const activeNav = ['detail','comparison'].includes(screen) ? 'laudos' : screen === 'onboarding' ? 'new' : screen;
+
+  return (
+    <DashShell activeScreen={activeNav} setScreen={s => { setScreen(s); setActiveLaudo(null); }}>
+      {content}
+    </DashShell>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

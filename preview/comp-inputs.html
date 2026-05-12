@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { background: var(--color-bg-base); padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .label { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--color-fg-3); text-transform: uppercase; letter-spacing: 0.5px; }
+  .row { display: flex; gap: 12px; flex-wrap: wrap; }
+  .field { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 200px; }
+  .field-label { font-family: var(--font-ui); font-size: 12px; font-weight: 500; color: var(--color-fg-2); }
+  .input {
+    height: 38px; padding: 0 12px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-ui); font-size: 14px; color: var(--color-fg-1);
+    outline: none; width: 100%;
+  }
+  .input::placeholder { color: var(--color-fg-3); }
+  .input.focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px rgba(29,158,117,0.15); }
+  .input.error { border-color: var(--color-critical); box-shadow: 0 0 0 3px rgba(239,68,68,0.12); }
+  .input.disabled { opacity: 0.4; cursor: not-allowed; }
+  .hint { font-family: var(--font-ui); font-size: 11px; color: var(--color-fg-3); }
+  .hint.err { color: var(--color-critical); }
+  .select {
+    height: 38px; padding: 0 12px;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-ui); font-size: 14px; color: var(--color-fg-1);
+    width: 100%; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 12px center;
+  }
+</style>
+</head>
+<body>
+  <div class="label">Text Inputs</div>
+  <div class="row">
+    <div class="field">
+      <div class="field-label">URL da página</div>
+      <input class="input" type="text" placeholder="https://suapagina.com.br" readonly>
+      <div class="hint">Insira a URL completa com https://</div>
+    </div>
+    <div class="field">
+      <div class="field-label">URL da página <span style="color:var(--color-critical)">*</span></div>
+      <input class="input focus" type="text" value="suapagina.com" readonly>
+    </div>
+    <div class="field">
+      <div class="field-label">URL inválida</div>
+      <input class="input error" type="text" value="not-a-url" readonly>
+      <div class="hint err">URL inválida — inclua https://</div>
+    </div>
+  </div>
+  <div class="label">Select</div>
+  <div class="row">
+    <div class="field">
+      <div class="field-label">Tipo de análise</div>
+      <select class="select"><option>Landing page</option><option>Checkout</option><option>Home</option></select>
+    </div>
+    <div class="field">
+      <div class="field-label">Setor</div>
+      <select class="select"><option>E-commerce</option><option>SaaS</option><option>Serviços</option></select>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { background: var(--color-bg-base); padding: 20px; display: flex; flex-direction: column; gap: 20px; font-family: var(--font-ui); }
+
+  /* ── Category score bars ───────────────────────────── */
+  .bars-grid { display: flex; flex-direction: column; gap: 8px; }
+  .bar-row { display: grid; grid-template-columns: 180px 1fr 36px; align-items: center; gap: 10px; }
+  .bar-name { font-size: 12px; font-weight: 500; color: var(--color-fg-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-track { height: 6px; background: var(--color-bg-elevated); border-radius: var(--radius-full); overflow: hidden; }
+  .bar-fill  { height: 100%; border-radius: var(--radius-full); }
+  .bar-val   { font-family: var(--font-display); font-size: 13px; font-weight: 700; text-align: right; }
+
+  /* ── Finding list ──────────────────────────────────── */
+  .finding {
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  /* Severity block — vertical pill with number */
+  .sev-block {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    width: 28px; padding-top: 2px;
+  }
+  .sev-num {
+    font-family: var(--font-display); font-size: 15px; font-weight: 700; line-height: 1;
+  }
+  .sev-bar-mini {
+    width: 3px; height: 28px; border-radius: 2px;
+  }
+  .sev-label {
+    font-size: 9px; font-weight: 600; letter-spacing: 0.3px;
+    text-transform: uppercase; writing-mode: vertical-rl;
+    transform: rotate(180deg); line-height: 1;
+  }
+
+  .finding-body { display: flex; flex-direction: column; gap: 4px; }
+  .finding-title { font-size: 13px; font-weight: 500; color: var(--color-fg-1); line-height: 1.35; }
+  .finding-desc  { font-size: 11px; color: var(--color-fg-2); line-height: 1.5; }
+  .finding-tag   { font-size: 10px; font-weight: 500; color: var(--color-fg-3); }
+
+  .impact-chip {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+    padding-top: 2px; white-space: nowrap;
+  }
+  .impact-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; color: var(--color-fg-3); }
+  .impact-val   { font-family: var(--font-mono); font-size: 11px; font-weight: 500; }
+
+  .section-label {
+    font-size: 10px; font-weight: 600; color: var(--color-fg-3);
+    text-transform: uppercase; letter-spacing: 0.6px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content:''; flex:1; height:1px; background: var(--color-border); }
+</style>
+</head>
+<body>
+
+  <!-- Category Bars -->
+  <div class="section-label">Scores por categoria</div>
+  <div class="bars-grid">
+    <div class="bar-row">
+      <span class="bar-name">Clareza da proposta de valor</span>
+      <div class="bar-track"><div class="bar-fill" style="width:82%;background:#22C55E"></div></div>
+      <span class="bar-val" style="color:#22C55E">82</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-name">Fricção cognitiva no CTA</span>
+      <div class="bar-track"><div class="bar-fill" style="width:74%;background:#22C55E"></div></div>
+      <span class="bar-val" style="color:#22C55E">74</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-name">Hierarquia visual</span>
+      <div class="bar-track"><div class="bar-fill" style="width:55%;background:#F59E0B"></div></div>
+      <span class="bar-val" style="color:#F59E0B">55</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-name">Urgência e escassez</span>
+      <div class="bar-track"><div class="bar-fill" style="width:48%;background:#F59E0B"></div></div>
+      <span class="bar-val" style="color:#F59E0B">48</span>
+    </div>
+    <div class="bar-row">
+      <span class="bar-name">Elementos de confiança</span>
+      <div class="bar-track"><div class="bar-fill" style="width:31%;background:#EF4444"></div></div>
+      <span class="bar-val" style="color:#EF4444">31</span>
+    </div>
+  </div>
+
+  <!-- Finding Cards -->
+  <div class="section-label">Achados do laudo — 3 de 8</div>
+  <div style="display:flex;flex-direction:column;gap:6px">
+
+    <!-- Critical finding -->
+    <div class="finding">
+      <div class="sev-block">
+        <span class="sev-num" style="color:#EF4444">C</span>
+        <div class="sev-bar-mini" style="background:#EF4444"></div>
+        <span class="sev-label" style="color:#EF4444">crítico</span>
+      </div>
+      <div class="finding-body">
+        <div class="finding-title">Ausência de prova social próxima ao CTA</div>
+        <div class="finding-desc">Visitantes chegam ao botão de conversão sem encontrar avaliações ou depoimentos. A janela de decisão ocorre sem ativação de conformidade social — impacto direto na taxa de conversão.</div>
+        <div class="finding-tag">Confiança · above the fold</div>
+      </div>
+      <div class="impact-chip">
+        <span class="impact-label">impacto est.</span>
+        <span class="impact-val" style="color:#EF4444">+11% CR</span>
+      </div>
+    </div>
+
+    <!-- Warning finding -->
+    <div class="finding">
+      <div class="sev-block">
+        <span class="sev-num" style="color:#F59E0B">A</span>
+        <div class="sev-bar-mini" style="background:#F59E0B"></div>
+        <span class="sev-label" style="color:#F59E0B">atenção</span>
+      </div>
+      <div class="finding-body">
+        <div class="finding-title">Headline não ativa benefício primário em 3 segundos</div>
+        <div class="finding-desc">O título atual descreve funcionalidade, não resultado. Reescrever orientado ao ganho específico do usuário pode aumentar o tempo de sessão inicial.</div>
+        <div class="finding-tag">Clareza · hero section</div>
+      </div>
+      <div class="impact-chip">
+        <span class="impact-label">impacto est.</span>
+        <span class="impact-val" style="color:#F59E0B">+6% CR</span>
+      </div>
+    </div>
+
+    <!-- Good finding -->
+    <div class="finding" style="opacity:0.75">
+      <div class="sev-block">
+        <span class="sev-num" style="color:#22C55E">B</span>
+        <div class="sev-bar-mini" style="background:#22C55E"></div>
+        <span class="sev-label" style="color:#22C55E">bom</span>
+      </div>
+      <div class="finding-body">
+        <div class="finding-title">CTA usa verbo de ação com orientação de benefício</div>
+        <div class="finding-desc">O botão principal segue o padrão recomendado: verbo + benefício específico. Contraste de cor está dentro do limite de atenção pré-atentiva.</div>
+        <div class="finding-tag">Fricção · CTA principal</div>
+      </div>
+      <div class="impact-chip">
+        <span class="impact-label">impacto est.</span>
+        <span class="impact-val" style="color:#22C55E">—</span>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

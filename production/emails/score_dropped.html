@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atenção: seu score caiu — NeuroConvert</title>
+</head>
+<body style="margin:0;padding:0;background-color:#000000;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#000000">
+<tr><td align="center" style="padding:32px 16px">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%">
+
+    <!-- Logo -->
+    <tr><td style="padding:0 0 24px 0">
+      <span style="font-size:16px;font-weight:700;color:#FFFFFF;letter-spacing:-0.3px">Neuro<span style="color:#1D9E75">Convert</span></span>
+    </td></tr>
+
+    <!-- Main card -->
+    <tr><td style="background-color:#141414;border-radius:16px;border:1px solid #222222;overflow:hidden">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+
+        <!-- Warning banner -->
+        <tr><td style="background-color:#1a0d0d;border-bottom:1px solid #2a1515;padding:28px 32px;text-align:center">
+          <p style="margin:0 0 6px;font-size:11px;font-weight:700;color:#EF4444;letter-spacing:1.5px;text-transform:uppercase">⚠ Atenção necessária</p>
+          <p style="margin:0;font-size:13px;color:#9CA3AF">{{url}}</p>
+        </td></tr>
+
+        <!-- Score drop -->
+        <tr><td style="padding:32px;text-align:center">
+          <p style="margin:0 0 12px;font-size:28px;font-weight:700;color:#FFFFFF;letter-spacing:-0.8px;line-height:1.2">
+            Seu score caiu <span style="color:#EF4444;font-family:'Courier New',monospace">{{delta}} pontos</span>
+          </p>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:20px auto 0">
+            <tr>
+              <td style="text-align:center;padding:0 20px">
+                <p style="margin:0;font-size:52px;font-weight:700;color:#6B7280;letter-spacing:-2px;line-height:1">{{previousScore}}</p>
+                <p style="margin:4px 0 0;font-size:10px;color:#4B5563">anterior</p>
+              </td>
+              <td style="text-align:center;padding:0 20px;color:#4B5563;font-size:24px">→</td>
+              <td style="text-align:center;padding:0 20px">
+                <p style="margin:0;font-size:52px;font-weight:700;color:#EF4444;letter-spacing:-2px;line-height:1">{{currentScore}}</p>
+                <p style="margin:4px 0 0;font-size:10px;color:#4B5563">atual</p>
+              </td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <tr><td style="padding:0 32px"><div style="height:1px;background-color:#1C1C1C"></div></td></tr>
+
+        <!-- Context -->
+        <tr><td style="padding:24px 32px">
+          <p style="margin:0 0 12px;font-size:14px;color:#9CA3AF;line-height:1.7">
+            Algo mudou na página que pode estar afetando sua conversão. Isso acontece frequentemente após:
+          </p>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%">
+            {['Mudança de layout ou copy', 'Novo elemento adicionado acima do fold', 'Alteração no CTA principal', 'Update da plataforma de e-commerce'].map((item, i) => `
+            <tr><td style="padding:4px 0">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td width="14" style="vertical-align:top;padding-top:3px;color:#EF4444;font-size:10px">·</td>
+                  <td style="padding-left:6px;font-size:13px;color:#9CA3AF">${item}</td>
+                </tr>
+              </table>
+            </td></tr>`).join('')}
+          </table>
+        </td></tr>
+
+        <tr><td style="padding:0 32px"><div style="height:1px;background-color:#1C1C1C"></div></td></tr>
+
+        <!-- CTA -->
+        <tr><td style="padding:28px 32px;text-align:center">
+          <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#FFFFFF">O que mudou?</p>
+          <p style="margin:0 0 20px;font-size:13px;color:#9CA3AF">Veja a comparação detalhada com as dimensões que regrediram.</p>
+          <a href="{{reportUrl}}" style="display:inline-block;background-color:#EF4444;color:#FFFFFF;text-decoration:none;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px">
+            Ver o que mudou →
+          </a>
+        </td></tr>
+
+        <!-- Secondary CTA -->
+        <tr><td style="padding:0 32px 28px;text-align:center">
+          <a href="{{reanalyzeUrl}}" style="font-size:13px;color:#9CA3AF;text-decoration:underline">
+            Rodar nova análise agora
+          </a>
+        </td></tr>
+      </table>
+    </td></tr>
+
+    <!-- Footer -->
+    <tr><td style="padding:24px 0 0;text-align:center">
+      <p style="margin:0 0 6px;font-size:11px;color:#4B5563">NeuroConvert · Monitoramento automático mensal</p>
+      <p style="margin:0;font-size:11px;color:#4B5563">
+        <a href="{{unsubscribeUrl}}" style="color:#4B5563;text-decoration:underline">Cancelar notificações</a>
+      </p>
+    </td></tr>
+
+  </table>
+</td></tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { background: var(--color-bg-base); padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+  .label { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--color-fg-3); text-transform: uppercase; letter-spacing: 0.5px; }
+  .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  /* Base button */
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 0 16px; height: 36px; border-radius: var(--radius-sm);
+    font-family: var(--font-ui); font-size: 14px; font-weight: 500;
+    border: none; cursor: pointer; transition: all 150ms var(--ease-out);
+    text-decoration: none; white-space: nowrap;
+  }
+  .btn-sm { height: 28px; padding: 0 12px; font-size: 12px; border-radius: var(--radius-xs); }
+  .btn-lg { height: 44px; padding: 0 24px; font-size: 15px; border-radius: var(--radius-sm); }
+
+  .btn-primary { background: var(--color-primary); color: #fff; }
+  .btn-primary:hover { background: var(--color-primary-light); }
+
+  .btn-secondary { background: var(--color-bg-elevated); color: var(--color-fg-1); border: 1px solid var(--color-border-strong); }
+  .btn-secondary:hover { background: var(--color-bg-raised); }
+
+  .btn-ghost { background: transparent; color: var(--color-fg-1); border: 1px solid transparent; }
+  .btn-ghost:hover { background: var(--color-bg-elevated); }
+
+  .btn-danger { background: rgba(239,68,68,0.12); color: #EF4444; border: 1px solid rgba(239,68,68,0.25); }
+  .btn-danger:hover { background: rgba(239,68,68,0.2); }
+
+  .btn-muted { background: var(--color-primary-muted); color: var(--color-primary); border: 1px solid rgba(29,158,117,0.25); }
+</style>
+</head>
+<body>
+  <div class="label">Buttons — Variants</div>
+  <div class="row">
+    <button class="btn btn-primary">Analisar página</button>
+    <button class="btn btn-secondary">Ver histórico</button>
+    <button class="btn btn-ghost">Cancelar</button>
+    <button class="btn btn-danger">Excluir laudo</button>
+    <button class="btn btn-muted">+ Nova análise</button>
+  </div>
+  <div class="label">Sizes</div>
+  <div class="row">
+    <button class="btn btn-sm btn-primary">Pequeno</button>
+    <button class="btn btn-primary">Médio</button>
+    <button class="btn btn-lg btn-primary">Grande</button>
+  </div>
+  <div class="label">States</div>
+  <div class="row">
+    <button class="btn btn-primary" style="background:var(--color-primary-light)">Hover</button>
+    <button class="btn btn-primary" style="background:var(--color-primary-dark);transform:scale(0.97)">Pressed</button>
+    <button class="btn btn-primary" style="opacity:0.4;cursor:not-allowed">Disabled</button>
+    <button class="btn btn-primary" style="box-shadow:0 0 0 2px var(--color-bg-base),0 0 0 4px var(--color-primary)">Focused</button>
+  </div>
+</body>
+</html>

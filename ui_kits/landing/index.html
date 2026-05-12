@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroConvert — Otimize sua conversão com neuromarketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #0A0A0A; color: #FFFFFF; -webkit-font-smoothing: antialiased; }
+  ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #0F172A; } ::-webkit-scrollbar-thumb { background: #2D3E52; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="LandingHero.jsx"></script>
+<script type="text/babel" src="LandingFeatures.jsx"></script>
+<script type="text/babel">
+const App = () => {
+  const [screen, setScreen] = React.useState('landing'); // 'landing' | 'signup'
+
+  if (screen === 'signup') return (
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0F172A' }}>
+      <div style={{ background: '#1E293B', border: '1px solid #2D3E52', borderRadius: 16, padding: '48px 40px', width: 420, display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+          <svg width="26" height="26" viewBox="0 0 36 36" fill="none"><rect x="4" y="6" width="6" height="24" rx="3" fill="#1D9E75"/><polygon points="10,6 16,6 22,30 16,30" fill="#1D9E75"/><rect x="16" y="6" width="6" height="24" rx="3" fill="#1D9E75"/><circle cx="28" cy="9" r="3" fill="#25C98F"/></svg>
+          <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 17, fontWeight: 700, color: '#F8FAFC' }}>Neuro<span style={{ color: '#1D9E75' }}>Convert</span></span>
+        </div>
+        <div>
+          <h2 style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 24, fontWeight: 700, color: '#F8FAFC', marginBottom: 6 }}>Crie sua conta grátis</h2>
+          <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#94A3B8' }}>3 laudos por mês, sem cartão de crédito.</p>
+        </div>
+        {[['E-mail', 'email', 'seu@email.com'], ['Senha', 'password', '••••••••']].map(([label, type, ph]) => (
+          <div key={type} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <label style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 500, color: '#94A3B8' }}>{label}</label>
+            <input type={type} placeholder={ph} style={{ height: 40, padding: '0 12px', background: '#273548', border: '1px solid #2D3E52', borderRadius: 8, fontFamily: "'DM Sans',sans-serif", fontSize: 14, color: '#F8FAFC', outline: 'none' }}
+              onFocus={e => e.target.style.borderColor='#1D9E75'}
+              onBlur={e => e.target.style.borderColor='#2D3E52'}/>
+          </div>
+        ))}
+        <button style={{ height: 44, background: '#1D9E75', color: '#fff', border: 'none', borderRadius: 8, fontFamily: "'DM Sans',sans-serif", fontSize: 15, fontWeight: 600, cursor: 'pointer' }}
+          onClick={() => setScreen('landing')}>Criar conta</button>
+        <button onClick={() => setScreen('landing')} style={{ background: 'none', border: 'none', color: '#475569', fontFamily: "'DM Sans',sans-serif", fontSize: 13, cursor: 'pointer' }}>← Voltar</button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div>
+      <LandingNav />
+      <LandingHero onAnalyze={() => setScreen('signup')} />
+
+      {/* Divider / logos strip */}
+      <div style={{ borderTop: '1px solid #1E293B', padding: '32px 40px', display: 'flex', alignItems: 'center', gap: 40, justifyContent: 'center' }}>
+        <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: '#475569', whiteSpace: 'nowrap' }}>Usado por times de</span>
+        {['Loja Integrada', 'Nuvemshop', 'Hotmart', 'RD Station', 'VTEX'].map(b => (
+          <span key={b} style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 14, fontWeight: 600, color: '#2D3E52', letterSpacing: '-0.3px' }}>{b}</span>
+        ))}
+      </div>
+
+      <LandingHowItWorks />
+      <LandingMethodology />
+
+      {/* Score sample section */}
+      <div style={{ background: '#111c2d', padding: '80px 40px', borderTop: '1px solid #1E293B', borderBottom: '1px solid #1E293B' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', gap: 64, alignItems: 'center' }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, fontWeight: 600, color: '#1D9E75', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: 12 }}>EXEMPLO DE LAUDO</div>
+            <h2 style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 32, fontWeight: 700, color: '#F8FAFC', letterSpacing: '-0.8px', lineHeight: 1.25, marginBottom: 16 }}>
+              Score 0–100 com diagnóstico por categoria
+            </h2>
+            <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 15, color: '#94A3B8', lineHeight: 1.65, marginBottom: 28 }}>
+              Cada laudo classifica sua página em 5 dimensões neuropsicológicas: clareza, confiança, urgência, hierarquia e fricção. Problemas são ordenados por impacto estimado na conversão.
+            </p>
+            {[['3 níveis de severidade', 'Crítico, atenção e bom — com estimativa de impacto em CR'],
+              ['Recomendações acionáveis', 'Ações específicas priorizadas por facilidade e retorno'],
+              ['Histórico e evolução', 'Acompanhe a melhora do score ao longo das iterações']].map(([t, d]) => (
+              <div key={t} style={{ display: 'flex', gap: 12, marginBottom: 16, alignItems: 'flex-start' }}>
+                <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'rgba(29,158,117,0.15)', border: '1px solid rgba(29,158,117,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" strokeWidth="3" strokeLinecap="round"><polyline points="20,6 9,17 4,12"/></svg>
+                </div>
+                <div>
+                  <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 600, color: '#F8FAFC', marginBottom: 2 }}>{t}</div>
+                  <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, color: '#94A3B8' }}>{d}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+          {/* Mini laudo preview */}
+          <div style={{ flexShrink: 0, width: 360, background: '#1E293B', border: '1px solid #2D3E52', borderRadius: 14, overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid #2D3E52', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <div style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: '#475569' }}>NC-00847</div>
+                <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 14, fontWeight: 500, color: '#F8FAFC' }}>Landing page – Black Friday</div>
+              </div>
+              <div style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 32, fontWeight: 700, color: '#F59E0B', lineHeight: 1 }}>54</div>
+            </div>
+            <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[['Clareza da proposta', 82, '#22C55E'], ['Hierarquia visual', 55, '#F59E0B'], ['Elementos de confiança', 31, '#EF4444'], ['Urgência', 48, '#F59E0B'], ['Fricção no CTA', 76, '#22C55E']].map(([n, v, c]) => (
+                <div key={n} style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 8, alignItems: 'center' }}>
+                  <div>
+                    <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, color: '#94A3B8', marginBottom: 4 }}>{n}</div>
+                    <div style={{ height: 5, background: '#273548', borderRadius: 9999 }}>
+                      <div style={{ height: '100%', width: `${v}%`, background: c, borderRadius: 9999 }}/>
+                    </div>
+                  </div>
+                  <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 13, fontWeight: 700, color: c }}>{v}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ padding: '12px 20px', background: 'rgba(239,68,68,0.06)', borderTop: '1px solid rgba(239,68,68,0.15)', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2" strokeLinecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: '#EF4444', fontWeight: 500 }}>2 problemas críticos detectados</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <LandingPricing onChoose={() => setScreen('signup')} />
+      <LandingFooter />
+    </div>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

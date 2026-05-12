@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análise mensal — NeuroConvert</title>
+</head>
+<body style="margin:0;padding:0;background-color:#000000;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#000000">
+<tr><td align="center" style="padding:32px 16px">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%">
+
+    <tr><td style="padding:0 0 24px">
+      <span style="font-size:16px;font-weight:700;color:#FFFFFF">Neuro<span style="color:#1D9E75">Convert</span></span>
+    </td></tr>
+
+    <tr><td style="background-color:#141414;border-radius:16px;border:1px solid #222222;overflow:hidden">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+
+        <!-- Header -->
+        <tr><td style="background-color:#111111;border-bottom:1px solid #1C1C1C;padding:28px 32px">
+          <p style="margin:0 0 6px;font-size:11px;font-weight:700;color:#9CA3AF;letter-spacing:1.5px;text-transform:uppercase">Análise mensal automática</p>
+          <p style="margin:0;font-size:18px;font-weight:700;color:#FFFFFF;letter-spacing:-0.4px">{{url}}</p>
+        </td></tr>
+
+        <!-- Score stable -->
+        <tr><td style="padding:32px;text-align:center">
+          <p style="margin:0 0 6px;font-size:11px;color:#9CA3AF;letter-spacing:0.3px">Score atual</p>
+          <p style="margin:0;font-size:72px;font-weight:700;color:#F59E0B;letter-spacing:-3px;line-height:1;font-family:'Courier New',monospace">{{currentScore}}</p>
+          <p style="margin:8px 0 0;font-size:13px;color:#9CA3AF">Score estável — variação de <strong style="font-family:'Courier New',monospace;color:#FFFFFF">{{delta}} pts</strong> em relação ao mês anterior</p>
+        </td></tr>
+
+        <tr><td style="padding:0 32px"><div style="height:1px;background-color:#1C1C1C"></div></td></tr>
+
+        <!-- Positive framing -->
+        <tr><td style="padding:24px 32px">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0"
+            style="background-color:#0d1e17;border-radius:10px;border:1px solid #1a3025;width:100%">
+            <tr><td style="padding:16px 18px">
+              <p style="margin:0 0 6px;font-size:12px;font-weight:600;color:#1D9E75">✓ Estabilidade é um sinal positivo</p>
+              <p style="margin:0;font-size:13px;color:#9CA3AF;line-height:1.65">
+                Sua página manteve o mesmo desempenho. Isso significa que nenhuma alteração recente quebrou sua conversão — o que é mais comum do que parece.
+              </p>
+            </td></tr>
+          </table>
+        </td></tr>
+
+        <!-- Opportunity -->
+        <tr><td style="padding:0 32px 24px">
+          <p style="margin:0 0 12px;font-size:11px;font-weight:700;color:#4B5563;letter-spacing:0.6px;text-transform:uppercase">Próximos passos para melhorar</p>
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%">
+            <tr><td style="padding:8px 0;border-bottom:1px solid #1C1C1C">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%">
+                <tr>
+                  <td><span style="font-size:13px;color:#FFFFFF">{{topIssue.title}}</span></td>
+                  <td style="text-align:right"><span style="font-family:'Courier New',monospace;font-size:12px;font-weight:700;color:#EF4444">+{{topIssue.impact}}% CR est.</span></td>
+                </tr>
+              </table>
+            </td></tr>
+          </table>
+        </td></tr>
+
+        <tr><td style="padding:0 32px"><div style="height:1px;background-color:#1C1C1C"></div></td></tr>
+
+        <tr><td style="padding:24px 32px;text-align:center">
+          <a href="{{reportUrl}}" style="display:inline-block;background-color:#1D9E75;color:#FFFFFF;text-decoration:none;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px">
+            Ver análise completa →
+          </a>
+        </td></tr>
+      </table>
+    </td></tr>
+
+    <tr><td style="padding:24px 0 0;text-align:center">
+      <p style="margin:0 0 4px;font-size:11px;color:#4B5563">NeuroConvert · Monitoramento automático mensal</p>
+      <p style="margin:0;font-size:11px;color:#4B5563">
+        <a href="{{unsubscribeUrl}}" style="color:#4B5563;text-decoration:underline">Cancelar notificações</a>
+      </p>
+    </td></tr>
+
+  </table>
+</td></tr>
+</table>
+</body>
+</html>

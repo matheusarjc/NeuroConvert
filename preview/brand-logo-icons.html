@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { background: var(--color-bg-base); padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+  .label { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--color-fg-3); text-transform: uppercase; letter-spacing: 0.5px; }
+  .logo-row { display: flex; align-items: center; gap: 20px; }
+  .logo-bg-dark { background: var(--color-bg-base); padding: 16px 24px; border-radius: var(--radius-md); border: 1px solid var(--color-border); }
+  .logo-bg-surface { background: var(--color-bg-surface); padding: 16px 24px; border-radius: var(--radius-md); border: 1px solid var(--color-border); }
+  .icon-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .icon-chip { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .icon-chip span { font-family: var(--font-mono); font-size: 9px; color: var(--color-fg-3); }
+</style>
+</head>
+<body>
+  <div class="label">Wordmark</div>
+  <div class="logo-row">
+    <div class="logo-bg-dark">
+      <img src="../assets/logo.svg" height="36" alt="NeuroConvert logo">
+    </div>
+    <div class="logo-bg-surface">
+      <img src="../assets/logo.svg" height="36" alt="NeuroConvert logo">
+    </div>
+  </div>
+  <div class="label">Icon Mark</div>
+  <div class="logo-row">
+    <div class="logo-bg-dark" style="padding:12px">
+      <img src="../assets/logo-icon.svg" width="36" height="36" alt="NeuroConvert icon">
+    </div>
+    <div class="logo-bg-surface" style="padding:12px">
+      <img src="../assets/logo-icon.svg" width="36" height="36" alt="NeuroConvert icon">
+    </div>
+    <div style="background:var(--color-primary);padding:12px;border-radius:var(--radius-md)">
+      <img src="../assets/logo-icon.svg" width="36" height="36" alt="NeuroConvert icon" style="filter:brightness(0) invert(1)">
+    </div>
+  </div>
+  <div class="label">Lucide Icon Set (2px stroke, outline)</div>
+  <div class="icon-row">
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span>dashboard</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      <span>laudo</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+      <span>score</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+      <span>histórico</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>insight</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>crítico</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg>
+      <span style="color:var(--color-primary)">bom</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span>info</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>usuário</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      <span>cobrança</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      <span>métricas</span>
+    </div>
+    <div class="icon-chip">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      <span>config</span>
+    </div>
+  </div>
+</body>
+</html>

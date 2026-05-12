@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Seu score subiu — NeuroConvert</title>
+<!--[if mso]>
+<noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript>
+<![endif]-->
+</head>
+<body style="margin:0;padding:0;background-color:#000000;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%">
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#000000">
+<tr><td align="center" style="padding:32px 16px">
+
+  <!-- Container -->
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%">
+
+    <!-- Header: Logo -->
+    <tr><td style="padding:0 0 24px 0">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td style="vertical-align:middle;padding-right:8px">
+            <!-- Logo mark SVG inline -->
+            <img src="https://via.placeholder.com/24x24/1D9E75/1D9E75?text=N" width="24" height="24" alt="" style="display:block;border-radius:4px">
+          </td>
+          <td style="vertical-align:middle">
+            <span style="font-size:16px;font-weight:700;color:#FFFFFF;letter-spacing:-0.3px">Neuro<span style="color:#1D9E75">Convert</span></span>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <!-- Main card -->
+    <tr><td style="background-color:#141414;border-radius:16px;border:1px solid #222222;overflow:hidden">
+
+      <!-- Score banner -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr><td style="background-color:#0d1e17;border-bottom:1px solid #1a3025;padding:28px 32px;text-align:center">
+          <p style="margin:0 0 6px 0;font-size:11px;font-weight:700;color:#1D9E75;letter-spacing:1.5px;text-transform:uppercase">Evolução detectada</p>
+          <p style="margin:0;font-size:13px;color:#9CA3AF">{{url}}</p>
+        </td></tr>
+
+        <!-- Score comparison row -->
+        <tr><td style="padding:32px">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <!-- Before -->
+              <td width="140" style="text-align:center;vertical-align:top">
+                <p style="margin:0 0 8px;font-size:10px;font-weight:700;color:#4B5563;letter-spacing:0.8px;text-transform:uppercase">ANTES</p>
+                <p style="margin:0;font-size:56px;font-weight:700;color:#6B7280;letter-spacing:-2px;line-height:1">{{previousScore}}</p>
+                <p style="margin:4px 0 0;font-size:10px;color:#4B5563">{{previousDate}}</p>
+              </td>
+              <!-- Delta -->
+              <td style="text-align:center;vertical-align:middle;padding:0 16px">
+                <p style="margin:0;font-size:48px;font-weight:700;color:#22C55E;letter-spacing:-2px;line-height:1">+{{delta}}</p>
+                <p style="margin:6px 0 0;font-size:11px;color:#9CA3AF">pontos</p>
+                <p style="margin:4px 0 0;font-size:11px;color:#4B5563">em {{days}} dias</p>
+              </td>
+              <!-- After -->
+              <td width="140" style="text-align:center;vertical-align:top">
+                <p style="margin:0 0 8px;font-size:10px;font-weight:700;color:#4B5563;letter-spacing:0.8px;text-transform:uppercase">DEPOIS</p>
+                <p style="margin:0;font-size:56px;font-weight:700;color:#F59E0B;letter-spacing:-2px;line-height:1">{{currentScore}}</p>
+                <p style="margin:4px 0 0;font-size:10px;color:#4B5563">hoje</p>
+              </td>
+            </tr>
+          </table>
+        </td></tr>
+
+        <!-- Divider -->
+        <tr><td style="padding:0 32px"><div style="height:1px;background-color:#1C1C1C"></div></td></tr>
+
+        <!-- What improved -->
+        <tr><td style="padding:24px 32px">
+          <p style="margin:0 0 14px;font-size:11px;font-weight:700;color:#4B5563;letter-spacing:0.6px;text-transform:uppercase">O que melhorou</p>
+          {{#each improvedDimensions}}
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:8px;width:100%">
+            <tr>
+              <td width="18" style="vertical-align:top;padding-top:2px">
+                <div style="width:14px;height:14px;background-color:rgba(34,197,94,0.15);border-radius:50%;text-align:center;line-height:14px;font-size:9px;color:#22C55E">✓</div>
+              </td>
+              <td style="padding-left:8px">
+                <span style="font-size:13px;color:#FFFFFF">{{this.name}}</span>
+                <span style="font-size:12px;color:#6B7280;font-family:'Courier New',monospace;margin-left:8px">{{this.before}} → {{this.after}}</span>
+              </td>
+            </tr>
+          </table>
+          {{/each}}
+        </td></tr>
+
+        <!-- Divider -->
+        <tr><td style="padding:0 32px"><div style="height:1px;background-color:#1C1C1C"></div></td></tr>
+
+        <!-- CTA -->
+        <tr><td style="padding:28px 32px;text-align:center">
+          <p style="margin:0 0 20px;font-size:14px;color:#9CA3AF;line-height:1.6">
+            Veja a comparação completa com todos os detalhes da evolução.
+          </p>
+          <a href="{{reportUrl}}" style="display:inline-block;background-color:#1D9E75;color:#FFFFFF;text-decoration:none;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;letter-spacing:-0.2px">
+            Ver comparação completa →
+          </a>
+        </td></tr>
+      </table>
+    </td></tr>
+
+    <!-- Monitoring badge -->
+    <tr><td style="padding:16px 0 0">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+        style="background-color:#0d1e17;border-radius:10px;border:1px solid #1a3025">
+        <tr><td style="padding:14px 18px">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+              <td style="vertical-align:middle;padding-right:10px">
+                <div style="width:8px;height:8px;background-color:#1D9E75;border-radius:50%"></div>
+              </td>
+              <td>
+                <span style="font-size:12px;color:#9CA3AF">Monitoramento ativo · próxima análise automática em <strong style="color:#1D9E75;font-family:'Courier New',monospace">30 dias</strong></span>
+              </td>
+            </tr>
+          </table>
+        </td></tr>
+      </table>
+    </td></tr>
+
+    <!-- Footer -->
+    <tr><td style="padding:28px 0 0;text-align:center">
+      <p style="margin:0 0 6px;font-size:11px;color:#4B5563">NeuroConvert · Análise neuropsicológica de conversão</p>
+      <p style="margin:0;font-size:11px;color:#4B5563">
+        <a href="{{unsubscribeUrl}}" style="color:#4B5563;text-decoration:underline">Cancelar notificações</a>
+        &nbsp;·&nbsp;
+        <a href="{{settingsUrl}}" style="color:#4B5563;text-decoration:underline">Configurações</a>
+      </p>
+    </td></tr>
+
+  </table>
+</td></tr>
+</table>
+
+</body>
+</html>

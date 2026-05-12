@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroConvert — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0A0A0A; color: #FFFFFF; -webkit-font-smoothing: antialiased; overflow: hidden; }
+  ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: #1C1C1C; border-radius: 3px; }
+  select, option { background: #141414; color: #9CA3AF; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="AdminOverview.jsx"></script>
+<script type="text/babel" src="AdminScreens.jsx"></script>
+<script type="text/babel">
+const SCREEN_TITLES = {
+  overview: 'Visão geral',
+  users:    'Usuários',
+  subs:     'Assinaturas',
+  laudos:   'Laudos',
+};
+
+const AdminLaudos = () => (
+  <div style={{ maxWidth: 900 }}>
+    <div style={{ background: '#141414', border: '1px solid #1C1C1C', borderRadius: 10, overflow: 'hidden' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '100px 2fr 1fr 80px 100px 90px', padding: '10px 18px', borderBottom: '1px solid #1C1C1C' }}>
+        {['ID', 'Página', 'Usuário', 'Score', 'Status', 'Data'].map(h => (
+          <div key={h} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 10, fontWeight: 600, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{h}</div>
+        ))}
+      </div>
+      {[
+        { id:'NC-00847', page:'Landing page – Black Friday', user:'Rafael Mendes',   score:54, color:'#F59E0B', label:'Atenção',  date:'11 mai' },
+        { id:'NC-00846', page:'Checkout – Plano Anual',      user:'Camila Torres',   score:73, color:'#22C55E', label:'Bom',      date:'11 mai' },
+        { id:'NC-00845', page:'Home – Versão Q2',            user:'Julia Neves',     score:38, color:'#EF4444', label:'Crítico',  date:'10 mai' },
+        { id:'NC-00844', page:'Landing page – Produto X',   user:'Rafael Santos',   score:67, color:'#F59E0B', label:'Atenção',  date:'10 mai' },
+        { id:'NC-00843', page:'Checkout – Free Trial',       user:'Ana Beatriz',     score:81, color:'#22C55E', label:'Bom',      date:'09 mai' },
+        { id:'NC-00842', page:'Landing page – Inverno',      user:'Marcos Vieira',   score:29, color:'#EF4444', label:'Crítico',  date:'09 mai' },
+      ].map((l, i) => (
+        <div key={l.id} style={{ display: 'grid', gridTemplateColumns: '100px 2fr 1fr 80px 100px 90px', padding: '12px 18px', borderBottom: i < 5 ? '1px solid #111111' : 'none', alignItems: 'center', transition: 'background 150ms', cursor: 'pointer' }}
+          onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.015)'}
+          onMouseLeave={e => e.currentTarget.style.background='transparent'}>
+          <span style={{ fontFamily: "'JetBrains Mono',monospace", fontSize: 10, color: '#6B7280' }}>{l.id}</span>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 13, fontWeight: 500, color: '#FFFFFF' }}>{l.page}</span>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: '#9CA3AF' }}>{l.user}</span>
+          <span style={{ fontFamily: "'Space Grotesk',sans-serif", fontSize: 18, fontWeight: 700, color: l.color }}>{l.score}</span>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 11, fontWeight: 600, color: l.color, background: `${l.color}14`, border: `1px solid ${l.color}30`, borderRadius: 9999, padding: '2px 9px', width: 'fit-content' }}>{l.label}</span>
+          <span style={{ fontFamily: "'DM Sans',sans-serif", fontSize: 12, color: '#6B7280' }}>{l.date}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const App = () => {
+  const [screen, setScreen] = React.useState('overview');
+  const content = {
+    overview: <AdminOverview/>,
+    users:    <AdminUsers/>,
+    subs:     <AdminSubs/>,
+    laudos:   <AdminLaudos/>,
+  }[screen];
+
+  return (
+    <AdminShell active={screen} setScreen={setScreen} title={SCREEN_TITLES[screen]}>
+      {content}
+    </AdminShell>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

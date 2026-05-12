@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { background: var(--color-bg-base); padding: 20px; display: flex; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+  .card {
+    background: var(--color-bg-surface); border: 1px solid var(--color-border);
+    border-radius: var(--radius-md); padding: 20px;
+    box-shadow: var(--shadow-1); display: flex; flex-direction: column; gap: 10px;
+    width: 240px;
+  }
+  .card-label { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--color-fg-3); text-transform: uppercase; letter-spacing: 0.5px; }
+  .card-title { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: var(--color-fg-1); }
+  .card-meta { font-family: var(--font-ui); font-size: 12px; color: var(--color-fg-3); }
+  .score-chip { font-family: var(--font-display); font-size: 28px; font-weight: 700; line-height: 1; }
+  .divider { height: 1px; background: var(--color-border); margin: 2px 0; }
+  .row { display: flex; justify-content: space-between; align-items: center; }
+</style>
+</head>
+<body>
+  <!-- Laudo Summary Card -->
+  <div class="card">
+    <div class="row">
+      <div>
+        <div class="card-label">Laudo</div>
+        <div class="card-title">Landing Page Verão</div>
+      </div>
+      <div class="score-chip" style="color:#F59E0B">54</div>
+    </div>
+    <div class="divider"></div>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <div class="row"><span class="card-meta">Crítico</span><span style="font-family:var(--font-mono);font-size:12px;color:#EF4444">3 problemas</span></div>
+      <div class="row"><span class="card-meta">Atenção</span><span style="font-family:var(--font-mono);font-size:12px;color:#F59E0B">5 problemas</span></div>
+      <div class="row"><span class="card-meta">Bom</span><span style="font-family:var(--font-mono);font-size:12px;color:#22C55E">8 itens</span></div>
+    </div>
+    <div class="card-meta" style="color:var(--color-fg-3)">11 mai 2026</div>
+  </div>
+
+  <!-- Metric Card -->
+  <div class="card" style="width:200px">
+    <div class="card-label">Conversão estimada</div>
+    <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:#1D9E75;line-height:1">+18%</div>
+    <div class="card-meta">ganho potencial com correções críticas</div>
+  </div>
+
+  <!-- Elevated card (modal-like) -->
+  <div class="card" style="width:220px;background:var(--color-bg-elevated);box-shadow:var(--shadow-2)">
+    <div class="card-label">Status da assinatura</div>
+    <div class="card-title">Plano Pro</div>
+    <div class="divider"></div>
+    <div class="row"><span class="card-meta">Laudos restantes</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--color-fg-1)">7 / 20</span></div>
+    <div class="row"><span class="card-meta">Renova em</span><span style="font-family:var(--font-mono);font-size:13px;color:var(--color-fg-1)">19 jun</span></div>
+    <button style="margin-top:4px;width:100%;height:32px;background:var(--color-primary-muted);color:var(--color-primary);border:1px solid rgba(29,158,117,0.3);border-radius:var(--radius-xs);font-family:var(--font-ui);font-size:12px;font-weight:500;cursor:pointer">Gerenciar plano</button>
+  </div>
+</body>
+</html>

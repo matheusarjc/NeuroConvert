@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  body { background: var(--color-bg-base); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .row { display: flex; gap: 8px; }
+  .swatch { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+  .swatch-block { height: 52px; border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 9px; color: rgba(255,255,255,0.5); display:flex; align-items:flex-end; padding: 5px 7px; }
+  .swatch-name { font-family: var(--font-ui); font-size: 10px; font-weight: 500; color: var(--color-fg-2); }
+  .label { font-family: var(--font-ui); font-size: 11px; font-weight: 600; color: var(--color-fg-3); text-transform: uppercase; letter-spacing: 0.5px; }
+</style>
+</head>
+<body>
+<div class="label">Score Semantics</div>
+<div class="row">
+  <div class="swatch">
+    <div class="swatch-block" style="background:#EF4444">#EF4444</div>
+    <div class="swatch-name" style="color:#EF4444">● critical 0–39</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:#F59E0B">#F59E0B</div>
+    <div class="swatch-name" style="color:#F59E0B">● warning 40–69</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:#22C55E">#22C55E</div>
+    <div class="swatch-name" style="color:#22C55E">● good 70–100</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:#38BDF8">#38BDF8</div>
+    <div class="swatch-name" style="color:#38BDF8">● info</div>
+  </div>
+</div>
+<div class="label">Muted Variants</div>
+<div class="row">
+  <div class="swatch">
+    <div class="swatch-block" style="background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.25)">rgba(239,68,68,.12)</div>
+    <div class="swatch-name">critical-muted</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25)">rgba(245,158,11,.12)</div>
+    <div class="swatch-name">warning-muted</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.25)">rgba(34,197,94,.12)</div>
+    <div class="swatch-name">good-muted</div>
+  </div>
+  <div class="swatch">
+    <div class="swatch-block" style="background:rgba(56,189,248,0.12);border:1px solid rgba(56,189,248,0.25)">rgba(56,189,248,.12)</div>
+    <div class="swatch-name">info-muted</div>
+  </div>
+</div>
+</body>
+</html>

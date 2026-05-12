@@ -75,14 +75,11 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const priceId =
-    plan === "agency"
-      ? process.env.STRIPE_PRICE_AGENCY
-      : process.env.STRIPE_PRICE_PRO;
+  const priceId = process.env.STRIPE_PRICE_PRO;
 
   if (!priceId) {
     return NextResponse.json(
-      { error: "service_misconfigured", message: "STRIPE_PRICE_* em falta" },
+      { error: "service_misconfigured", message: "STRIPE_PRICE_PRO em falta" },
       { status: 503 }
     );
   }
@@ -98,8 +95,8 @@ export async function POST(req: NextRequest) {
     client_reference_id: userId,
     metadata: { plan, userId },
     subscription_data: {
+      trial_period_days: 7,
       metadata: { plan, userId },
-      ...(plan === "pro" ? { trial_period_days: 7 } : {}),
     },
   };
 

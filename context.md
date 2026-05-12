@@ -7,8 +7,8 @@ SaaS B2B de otimização de conversão com neuromarketing. O usuário cola uma U
 **Modelo de negócio — freemium PLG:**
 
 - Free: 1 análise/mês
-- Pro: R$ 297/mês — 10 análises
-- Agência: R$ 997/mês — ilimitado + white-label
+- Pro: R$ 297/mês — 10 análises (Checkout Stripe na app)
+- Agência: sob consulta — ilimitado + white-label (contrato manual; plano `agency` na BD / webhook se usares Stripe à parte)
 
 **Operação:** 1 pessoa (founder). Priorizar simplicidade, confiabilidade e menor custo de manutenção.
 
@@ -88,7 +88,7 @@ FIRECRAWL_API_KEY
 STRIPE_SECRET_KEY
 STRIPE_WEBHOOK_SECRET
 STRIPE_PRICE_PRO
-STRIPE_PRICE_AGENCY
+# STRIPE_PRICE_AGENCY — opcional; não usado pelo checkout self-serve
 SUPABASE_URL
 SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY

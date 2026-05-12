@@ -43,7 +43,7 @@ FIRECRAWL_API_KEY=fc-...
 STRIPE_SECRET_KEY=sk_live_...
 STRIPE_WEBHOOK_SECRET=whsec_...
 STRIPE_PRICE_PRO=price_...
-STRIPE_PRICE_AGENCY=price_...
+# STRIPE_PRICE_AGENCY — opcional; checkout self-serve só Pro (Agência sob consulta)
 
 # Supabase
 SUPABASE_URL=https://xxx.supabase.co
@@ -197,11 +197,14 @@ export async function POST(req: NextRequest) {
 ### Criar produtos no Stripe Dashboard
 
 ```
-Produto 1: NeuroConvert Pro
+Produto (self-serve na app): NeuroConvert Pro
   Preço: R$ 297,00 / mês | BRL | Recorrente | Trial: 7 dias
+  → Copiar o "API ID" do preço (ex.: price_1AbCdEf...) para STRIPE_PRICE_PRO no .env.local
 
-Produto 2: NeuroConvert Agência
-  Preço: R$ 997,00 / mês | BRL | Recorrente
+Plano Agência (sob consulta)
+  Não usa Checkout desta API. Negociação comercial; podes activar utilizadores com plano
+  `agency` na BD (ou criar subscrição manual no Stripe com metadata plan=agency + userId,
+  para o webhook continuar a funcionar).
 ```
 
 ### `app/api/checkout/route.ts`
@@ -212,9 +215,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: Request) {
   const { plan, email, userId } = await req.json();
-  const priceId = plan === 'agency'
-    ? process.env.STRIPE_PRICE_AGENCY!
-    : process.env.STRIPE_PRICE_PRO!;
+  if (plan !== 'pro') {
+    return Response.json({ error: 'agency_on_request' }, { status: 422 });
+  }
+  const priceId = process.env.STRIPE_PRICE_PRO!;
 
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
@@ -471,7 +475,7 @@ vercel env add FIRECRAWL_API_KEY
 vercel env add STRIPE_SECRET_KEY
 vercel env add STRIPE_WEBHOOK_SECRET
 vercel env add STRIPE_PRICE_PRO
-vercel env add STRIPE_PRICE_AGENCY
+# STRIPE_PRICE_AGENCY só se usares preço Stripe manual para Agência
 vercel env add SUPABASE_URL
 vercel env add SUPABASE_ANON_KEY
 vercel env add SUPABASE_SERVICE_ROLE_KEY

@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/webhook --events customer.subscription.created,customer.subscription.updated,customer.subscription.deleted,invoice.payment_failed,invoice.paid",
+    "stripe:trigger:subscription-created": "stripe trigger customer.subscription.created",
+    "stripe:trigger:subscription-updated": "stripe trigger customer.subscription.updated",
+    "stripe:trigger:subscription-deleted": "stripe trigger customer.subscription.deleted",
+    "stripe:trigger:invoice-payment-failed": "stripe trigger invoice.payment_failed",
+    "stripe:trigger:invoice-paid": "stripe trigger invoice.paid"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

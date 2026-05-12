@@ -60,7 +60,8 @@ SaaS B2B de otimização de conversão com neuromarketing. O usuário cola uma U
 
 ```sql
 users            -- id, email, stripe_customer_id, stripe_subscription_id,
-                 -- plan (free|pro|agency), credits_remaining, subscription_status
+                 -- plan (free|pro|agency), credits_remaining, subscription_status,
+                 -- subscribed_at, created_at
 
 reports          -- id, user_id, url, sector, score, report_json (JSONB),
                  -- scraping_ok, latency_ms, created_at
@@ -70,12 +71,13 @@ financial_events -- type (subscription_created|canceled), plan, mrr_impact,
 
 revenue_log      -- amount, currency, stripe_invoice_id, paid_at
 
-email_queue      -- to_email, template, data (JSONB), status, send_at, sent_at
+email_queue      -- to_email, template, data (JSONB), status, send_at, sent_at, created_at
 
 system_events    -- event, data, severity (info|warning|error|critical)
 
 daily_metrics    -- date PK, mrr, new_subscribers, churned_subscribers,
-                 -- total_active_subscribers, total_analyses
+                 -- total_active_subscribers, total_analyses, free_to_paid_conversions,
+                 -- api_error_rate, avg_latency_ms
 ```
 
 ---

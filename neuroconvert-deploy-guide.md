@@ -138,7 +138,12 @@ export async function POST(req: NextRequest) {
   let scrapingOk = true;
   try {
     const scraped = await firecrawl.scrapeUrl(url, { formats: ['markdown'] });
-    pageContent = scraped.markdown || '';
+    if (scraped && 'success' in scraped && scraped.success === true) {
+      pageContent = scraped.markdown || '';
+    } else {
+      scrapingOk = false;
+      pageContent = 'Conteúdo indisponível. Analise pela URL e setor.';
+    }
   } catch {
     scrapingOk = false;
     pageContent = 'Conteúdo indisponível. Analise pela URL e setor.';

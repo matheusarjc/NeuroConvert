@@ -48,10 +48,13 @@ SaaS B2B de otimização de conversão com neuromarketing. O usuário cola uma U
       /usage-monitor  → alertas de upgrade (9h)
   /admin              → dashboard protegido por cookie
 /lib
+  /cron-auth.ts       → requireCronAuth() (CRON_SECRET / ADMIN_SECRET)
   /email.ts           → sendEmail() com templates
+  /email-delivery.ts  → envio real via Resend (cron email-queue)
   /microeconomics.ts  → calcLTV(), calcNRR(), projectedMrrSCurve()
   /monitoring.ts      → logEvent()
 /middleware.ts        → proteção da rota /admin
+/vercel.json          → crons (Vercel)
 ```
 
 ---
@@ -99,6 +102,7 @@ RESEND_FROM
 ADMIN_SECRET
 ADMIN_EMAIL
 NEXT_PUBLIC_URL
+CRON_SECRET
 ```
 
 ---
@@ -114,7 +118,7 @@ export async function POST(req: Request) {
   // 2. Autenticar / checar créditos
   // 3. Lógica de negócio
   // 4. Persistir no Supabase
-  // 5. Efeitos colaterais (email na fila, Slack)
+  // 5. Efeitos colaterais (email na fila, logEvent)
   // 6. return Response.json()
 }
 ```

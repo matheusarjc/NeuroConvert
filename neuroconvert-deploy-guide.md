@@ -27,7 +27,7 @@
 ```bash
 npx create-next-app@latest neuroconvert --typescript --tailwind --app
 cd neuroconvert
-npm install @anthropic-ai/sdk stripe @firecrawl/sdk resend @supabase/supabase-js
+npm install @anthropic-ai/sdk stripe @mendable/firecrawl-js resend @supabase/supabase-js
 ```
 
 ### Variáveis de ambiente — `.env.local`
@@ -74,7 +74,7 @@ NEXT_PUBLIC_URL=https://neuroconvert.com.br
 ```typescript
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
-import FirecrawlApp from '@firecrawl/sdk';
+import FirecrawlApp from '@mendable/firecrawl-js';
 import { createClient } from '@supabase/supabase-js';
 import { sendEmail } from '@/lib/email';
 import { logEvent } from '@/lib/monitoring';

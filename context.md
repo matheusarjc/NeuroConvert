@@ -21,7 +21,7 @@ SaaS B2B de otimização de conversão com neuromarketing. O usuário cola uma U
 | Framework  | Next.js 14 App Router + TypeScript      |
 | Estilo     | Tailwind CSS                            |
 | IA         | Claude API — `claude-sonnet-4-20250514` |
-| Scraping   | Firecrawl SDK                           |
+| Scraping   | Firecrawl (`@mendable/firecrawl-js`)   |
 | Pagamentos | Stripe (BRL, assinaturas recorrentes)   |
 | Banco      | Supabase (PostgreSQL)                   |
 | Email      | Resend                                  |

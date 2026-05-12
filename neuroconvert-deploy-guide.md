@@ -569,17 +569,47 @@ Ver também `.env.example` e `context.md`.
 
 ## 7. Fluxo completo do usuário
 
+### 7.1 Jornada na interface (App Router)
+
+| Passo | Rota | O que acontece |
+|-------|------|------------------|
+| 1 | [`/`](/) | Landing com CTA **Começar análise** |
+| 2 | [`/analise`](/analise) | Formulário: URL, setor, UUID opcional, token JWT opcional → `POST /api/analyze` |
+| 3 | Resposta **200** | Mostra score, secções do laudo e quick wins |
+| 4 | Resposta **402** `no_credits` | Paywall: email + **Subscrever Pro** → `POST /api/checkout` → link Stripe |
+| 5 | Após pagamento | Stripe redirecciona para [`/sucesso?session_id=…`](/sucesso) |
+
+**Auth:** em produção, `POST /api/analyze` exige `Authorization: Bearer <access_token>` do Supabase (ver `ANALYZE_ALLOW_BODY_USER_ID` em `.env.example`). Em desenvolvimento podes passar só `userId` no JSON quando `ANALYZE_ALLOW_BODY_USER_ID=true`.
+
+**Checkout:** o email do paywall tem de ser **igual** ao `users.email` do `userId` indicado (validação `email_mismatch` → 403).
+
+### 7.2 Estados HTTP principais (`/api/analyze`)
+
+| Código | `error` típico | Significado |
+|--------|----------------|-------------|
+| 200 | — | Laudo em `report` |
+| 400 | `invalid_json` | Corpo inválido |
+| 401 | `unauthorized` | Sem Bearer ou token inválido |
+| 402 | `no_credits` | Free sem créditos — mostrar paywall |
+| 404 | `user_not_found` | UUID inexistente em `users` |
+| 422 | `validation_error` | URL/setor/`userId` inválidos |
+| 502 | `analysis_failed` / `invalid_report_shape` | Claude / schema |
+| 503 | `service_misconfigured` | Env ou Supabase em falta |
+
+### 7.3 Testes E2E (Playwright)
+
+Instalação única dos browsers: `npx playwright install chromium`
+
+```bash
+npm run test:e2e
 ```
-1. Acessa o site (domínio próprio ou `*.vercel.app`)
-2. Cola URL + seleciona setor → Gerar Laudo
-3. Firecrawl scrapa a página real
-4. Claude gera o laudo de neuromarketing (20s)
-5. Resultado exibido com score, dimensões e quick wins
-6. Ao tentar 2ª análise → Stripe Checkout (freemium gate)
-7. Pagamento confirmado → webhook → créditos ativados
-8. Emails automáticos em cada etapa da jornada
-9. Admin dashboard mostra tudo em tempo real
-```
+
+Variáveis úteis:
+
+- `PLAYWRIGHT_BASE_URL` — default `http://127.0.0.1:3099` (porta dedicada ao `playwright.config` para não colidir com `npm run dev` na 3000); sobrescreve para preview/prod.
+- `PLAYWRIGHT_SKIP_WEBSERVER=1` — não arranca `npm run dev` (útil se o servidor já estiver a correr).
+
+Os testes em `tests/e2e/fluxo.spec.ts` cobrem **navegação** e **health**; não chamam Claude/Stripe em CI (evita custo e segredos). Para E2E completo com laudo real, usa staging com envs e executa manualmente ou estende o spec com `test.skip` condicional.
 
 ---
 

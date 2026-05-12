@@ -1,6 +1,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import FirecrawlApp from "@mendable/firecrawl-js";
 import { NextRequest, NextResponse } from "next/server";
+import { ZodError } from "zod";
 import { sendSlackAlert } from "@/lib/alerts";
 import { sendEmail } from "@/lib/email";
 import { logEvent } from "@/lib/monitoring";
@@ -13,6 +14,16 @@ export const maxDuration = 60;
 
 const MODEL =
   process.env.ANTHROPIC_MODEL?.trim() || "claude-sonnet-4-20250514";
+
+function allowBodyUserId(): boolean {
+  return process.env.ANALYZE_ALLOW_BODY_USER_ID === "true";
+}
+
+function bearerToken(req: NextRequest): string | null {
+  const h = req.headers.get("authorization");
+  if (!h?.toLowerCase().startsWith("bearer ")) return null;
+  return h.slice(7).trim() || null;
+}
 
 const NEURO_PROMPT = (url: string, sector: string, content: string, ctx: string) => `
 Você é especialista em neuromarketing com 15 anos de experiência em conversão digital.
@@ -57,6 +68,8 @@ type UserRow = {
   subscription_status: string | null;
 };
 
+type RpcCompleteResult = { report_id: string; credits_after: number };
+
 export async function POST(req: NextRequest) {
   const startTime = Date.now();
 
@@ -90,7 +103,47 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { url, sector, ctx, userId } = parsed.data;
+  const { url, sector, ctx, userId: bodyUserId } = parsed.data;
+
+  if (allowBodyUserId() && !bodyUserId) {
+    return NextResponse.json(
+      { error: "validation_error", message: "userId obrigatório quando ANALYZE_ALLOW_BODY_USER_ID=true" },
+      { status: 422 }
+    );
+  }
+
+  let userId: string;
+  if (allowBodyUserId()) {
+    userId = bodyUserId as string;
+  } else {
+    const token = bearerToken(req);
+    if (!token) {
+      return NextResponse.json(
+        {
+          error: "unauthorized",
+          message: "Envie Authorization: Bearer <access_token> do Supabase Auth",
+        },
+        { status: 401 }
+      );
+    }
+    const {
+      data: { user: authUser },
+      error: authErr,
+    } = await supabase.auth.getUser(token);
+    if (authErr || !authUser) {
+      return NextResponse.json(
+        { error: "unauthorized", message: "Token inválido ou expirado" },
+        { status: 401 }
+      );
+    }
+    if (bodyUserId && bodyUserId !== authUser.id) {
+      return NextResponse.json(
+        { error: "userId_mismatch", message: "userId do corpo não coincide com o utilizador autenticado" },
+        { status: 403 }
+      );
+    }
+    userId = authUser.id;
+  }
 
   const { data: user, error: userErr } = await supabase
     .from("users")
@@ -98,13 +151,33 @@ export async function POST(req: NextRequest) {
     .eq("id", userId)
     .single();
 
-  if (userErr?.code === "PGRST116" || !user) {
+  if (userErr?.code === "PGRST116") {
+    return NextResponse.json({ error: "user_not_found" }, { status: 404 });
+  }
+
+  if (userErr) {
+    await logEvent(
+      "analysis_user_fetch_failed",
+      { code: userErr.code, message: userErr.message },
+      "error"
+    );
+    await sendSlackAlert("NeuroConvert: erro ao ler utilizador (Supabase)", {
+      code: userErr.code,
+      message: userErr.message,
+    });
+    return NextResponse.json(
+      { error: "database_unavailable", message: "Não foi possível validar o utilizador" },
+      { status: 503 }
+    );
+  }
+
+  if (!user) {
     return NextResponse.json({ error: "user_not_found" }, { status: 404 });
   }
 
   const u = user as UserRow;
 
-  if (u.credits_remaining < 1) {
+  if (u.plan !== "agency" && u.credits_remaining < 1) {
     return NextResponse.json({ error: "no_credits" }, { status: 402 });
   }
 
@@ -168,15 +241,31 @@ export async function POST(req: NextRequest) {
     }
     report = parseNeuroReportFromModelText(text);
   } catch (e) {
+    if (e instanceof ZodError) {
+      await logEvent(
+        "analysis_report_schema_failed",
+        { url, sector, issues: e.flatten() },
+        "critical"
+      );
+      await sendSlackAlert("NeuroConvert: laudo fora do schema (Zod)", {
+        url,
+        sector,
+        detail: e.message,
+      });
+      return NextResponse.json(
+        { error: "invalid_report_shape", message: "Resposta da IA não corresponde ao formato esperado" },
+        { status: 502 }
+      );
+    }
     const msg = e instanceof Error ? e.message : "unknown";
     await logEvent(
       "analysis_claude_failed",
-      { url, sector, userId, message: msg },
+      { url, sector, message: msg },
       "critical"
     );
-    await sendSlackAlert(`NeuroConvert: falha Claude em /api/analyze`, {
+    await sendSlackAlert("NeuroConvert: falha Claude em /api/analyze", {
       url,
-      userId,
+      sector,
       message: msg,
     });
     return NextResponse.json(
@@ -187,30 +276,32 @@ export async function POST(req: NextRequest) {
 
   const latencyMs = Date.now() - startTime;
 
-  const { data: inserted, error: insertErr } = await supabase
-    .from("reports")
-    .insert({
-      user_id: userId,
-      url,
-      sector,
-      score: report.score,
-      report_json: report,
-      scraping_ok: scrapingOk,
-      latency_ms: latencyMs,
-    })
-    .select("id")
-    .single();
+  const { data: rpcRaw, error: rpcErr } = await supabase.rpc("complete_analysis", {
+    p_user_id: userId,
+    p_url: url,
+    p_sector: sector,
+    p_score: report.score,
+    p_report_json: report,
+    p_scraping_ok: scrapingOk,
+    p_latency_ms: latencyMs,
+  });
 
-  if (insertErr || !inserted?.id) {
+  if (rpcErr) {
+    const m = rpcErr.message ?? "";
+    if (m.includes("user_not_found")) {
+      return NextResponse.json({ error: "user_not_found" }, { status: 404 });
+    }
+    if (m.includes("no_credits")) {
+      return NextResponse.json({ error: "no_credits" }, { status: 402 });
+    }
     await logEvent(
-      "analysis_report_insert_failed",
-      { userId, url, message: insertErr?.message },
+      "analysis_complete_analysis_rpc_failed",
+      { message: rpcErr.message, code: rpcErr.code },
       "critical"
     );
-    await sendSlackAlert(`NeuroConvert: falha ao gravar report`, {
-      userId,
-      url,
-      message: insertErr?.message,
+    await sendSlackAlert("NeuroConvert: falha RPC complete_analysis", {
+      message: rpcErr.message,
+      code: rpcErr.code,
     });
     return NextResponse.json(
       { error: "persist_failed", message: "Não foi possível guardar o laudo" },
@@ -218,36 +309,21 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const { error: updateErr } = await supabase
-    .from("users")
-    .update({ credits_remaining: u.credits_remaining - 1 })
-    .eq("id", userId);
-
-  if (updateErr) {
-    await supabase.from("reports").delete().eq("id", inserted.id);
-    await logEvent(
-      "analysis_credit_update_failed",
-      { userId, url, message: updateErr.message },
-      "critical"
-    );
-    await sendSlackAlert(`NeuroConvert: falha ao debitar crédito`, {
-      userId,
-      message: updateErr.message,
-    });
-    return NextResponse.json(
-      { error: "persist_failed", message: "Não foi possível atualizar créditos" },
-      { status: 500 }
-    );
-  }
+  const rpcPayload = rpcRaw as RpcCompleteResult | null;
+  const creditsAfter =
+    rpcPayload && typeof rpcPayload === "object" && "credits_after" in rpcPayload
+      ? Number((rpcPayload as RpcCompleteResult).credits_after)
+      : u.plan === "agency"
+        ? u.credits_remaining
+        : u.credits_remaining - 1;
 
   await logEvent("analysis_completed", {
-    userId,
     url,
     sector,
     score: report.score,
     latencyMs,
     scrapingOk,
-    creditsAfter: u.credits_remaining - 1,
+    creditsAfter,
   });
 
   if (u.plan === "free" && u.credits_remaining === 1) {

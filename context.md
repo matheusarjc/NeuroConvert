@@ -43,7 +43,7 @@ SaaS B2B de otimização de conversão com neuromarketing. O usuário cola uma U
       /metrics        → dashboard financeiro (protegido)
       /projections    → projeções MRR S-curve (protegido)
     /cron
-      /email-queue    → processa fila de emails (1x/hora)
+      /email-queue    → processa fila de emails (cron diário no Hobby Vercel)
       /daily-snapshot → snapshot métricas (3h da manhã)
       /usage-monitor  → alertas de upgrade (9h)
   /admin              → dashboard protegido por cookie

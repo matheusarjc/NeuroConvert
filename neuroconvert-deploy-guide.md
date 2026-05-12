@@ -498,13 +498,15 @@ vercel env add CRON_SECRET
 ```json
 {
   "crons": [
-    { "path": "/api/cron/email-queue",    "schedule": "0 * * * *"  },
+    { "path": "/api/cron/email-queue",    "schedule": "0 4 * * *"  },
     { "path": "/api/cron/daily-snapshot", "schedule": "0 3 * * *"  },
     { "path": "/api/cron/usage-monitor",  "schedule": "0 9 * * *"  },
-    { "path": "/api/health",              "schedule": "*/5 * * * *" }
+    { "path": "/api/health",              "schedule": "0 5 * * *"  }
   ]
 }
 ```
+
+No **plano Hobby**, cada cron só pode correr **no máximo uma vez por dia** (expressões como `0 * * * *` ou `*/5 * * * *` bloqueiam o deploy). Os horários acima estão ajustados para isso; em **Pro** podes voltar a agendamentos mais frequentes (ex.: fila de email hora a hora, health a cada 5 min).
 
 ---
 

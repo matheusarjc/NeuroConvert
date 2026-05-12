@@ -1,5 +1,6 @@
 -- VEN-2: tabelas mínimas para /api/analyze, email_queue e observabilidade.
--- Aplicar no Supabase: SQL Editor ou `supabase db push` quando CLI estiver ligado ao projeto.
+-- RLS activo sem políticas para anon/authenticated: a app Next usa apenas service_role no servidor.
+-- Aplicar: Supabase → SQL Editor → New query → colar → Run (ou `supabase db push` com CLI ligado ao project ref).
 
 create table if not exists public.users (
   id uuid primary key default gen_random_uuid(),
@@ -49,7 +50,7 @@ create table if not exists public.system_events (
 create index if not exists system_events_created_at_idx
   on public.system_events (created_at desc);
 
--- Utilizador de desenvolvimento (opcional): descomentar e ajustar email.
--- insert into public.users (email, plan, credits_remaining)
--- values ('dev@localhost', 'free', 10)
--- on conflict (email) do nothing;
+alter table public.users enable row level security;
+alter table public.reports enable row level security;
+alter table public.email_queue enable row level security;
+alter table public.system_events enable row level security;

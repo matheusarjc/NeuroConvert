@@ -34,27 +34,26 @@ SaaS B2B de otimização de conversão com neuromarketing. O usuário cola uma U
 
 ```
 /app
+  page.tsx            → landing
+  /analise            → fluxo URL → laudo → paywall (VEN-7)
+  /sucesso            → pós-Stripe Checkout
   /api
     /analyze          → scraping + Claude → laudo JSON
     /checkout         → sessão Stripe Checkout
     /webhook          → eventos Stripe
-    /health           → health check de dependências
-    /admin
-      /metrics        → dashboard financeiro (protegido)
-      /projections    → projeções MRR S-curve (protegido)
+    /health           → health check
     /cron
-      /email-queue    → processa fila de emails (cron diário no Hobby Vercel)
-      /daily-snapshot → snapshot métricas (3h da manhã)
-      /usage-monitor  → alertas de upgrade (9h)
-  /admin              → dashboard protegido por cookie
+      /email-queue    → fila de emails (cron diário Hobby)
+      /daily-snapshot → métricas diárias
+      /usage-monitor  → alertas de uso
 /lib
-  /cron-auth.ts       → requireCronAuth() (CRON_SECRET / ADMIN_SECRET)
-  /email.ts           → sendEmail() com templates
-  /email-delivery.ts  → envio real via Resend (cron email-queue)
-  /microeconomics.ts  → calcLTV(), calcNRR(), projectedMrrSCurve()
+  /cron-auth.ts       → requireCronAuth()
+  /email.ts           → sendEmail()
+  /email-delivery.ts  → Resend (cron)
+  /microeconomics.ts
   /monitoring.ts      → logEvent()
-/middleware.ts        → proteção da rota /admin
-/vercel.json          → crons (Vercel)
+/middleware.ts
+/vercel.json
 ```
 
 ---

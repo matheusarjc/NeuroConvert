@@ -2,7 +2,6 @@ import Anthropic from "@anthropic-ai/sdk";
 import FirecrawlApp from "@mendable/firecrawl-js";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";
-import { sendSlackAlert } from "@/lib/alerts";
 import { sendEmail } from "@/lib/email";
 import { logEvent } from "@/lib/monitoring";
 import { parseNeuroReportFromModelText } from "@/lib/report-json";
@@ -161,10 +160,6 @@ export async function POST(req: NextRequest) {
       { code: userErr.code, message: userErr.message },
       "error"
     );
-    await sendSlackAlert("NeuroConvert: erro ao ler utilizador (Supabase)", {
-      code: userErr.code,
-      message: userErr.message,
-    });
     return NextResponse.json(
       { error: "database_unavailable", message: "Não foi possível validar o utilizador" },
       { status: 503 }
@@ -247,11 +242,6 @@ export async function POST(req: NextRequest) {
         { url, sector, issues: e.flatten() },
         "critical"
       );
-      await sendSlackAlert("NeuroConvert: laudo fora do schema (Zod)", {
-        url,
-        sector,
-        detail: e.message,
-      });
       return NextResponse.json(
         { error: "invalid_report_shape", message: "Resposta da IA não corresponde ao formato esperado" },
         { status: 502 }
@@ -263,11 +253,6 @@ export async function POST(req: NextRequest) {
       { url, sector, message: msg },
       "critical"
     );
-    await sendSlackAlert("NeuroConvert: falha Claude em /api/analyze", {
-      url,
-      sector,
-      message: msg,
-    });
     return NextResponse.json(
       { error: "analysis_failed", message: "Falha ao gerar laudo" },
       { status: 502 }
@@ -299,10 +284,6 @@ export async function POST(req: NextRequest) {
       { message: rpcErr.message, code: rpcErr.code },
       "critical"
     );
-    await sendSlackAlert("NeuroConvert: falha RPC complete_analysis", {
-      message: rpcErr.message,
-      code: rpcErr.code,
-    });
     return NextResponse.json(
       { error: "persist_failed", message: "Não foi possível guardar o laudo" },
       { status: 500 }

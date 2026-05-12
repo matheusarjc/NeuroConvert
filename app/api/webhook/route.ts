@@ -1,6 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import Stripe from "stripe";
-import { sendSlackAlert } from "@/lib/alerts";
 import { sendEmail } from "@/lib/email";
 import { logEvent } from "@/lib/monitoring";
 import { createServiceClient } from "@/lib/supabase/admin";
@@ -123,10 +122,6 @@ export async function POST(req: Request) {
             { message: updErr.message, subscriptionId: sub.id },
             "critical"
           );
-          await sendSlackAlert("NeuroConvert: falha ao actualizar user na subscrição", {
-            subscriptionId: sub.id,
-            message: updErr.message,
-          });
           break;
         }
 
@@ -143,8 +138,14 @@ export async function POST(req: Request) {
           .eq("id", userId)
           .single();
 
-        await sendSlackAlert(
-          `Nova assinatura NeuroConvert: ${plan} (+R$${plan === "agency" ? MRR_AGENCY : MRR_PRO}/mês)`
+        await logEvent(
+          "stripe_subscription_created",
+          {
+            plan,
+            userId,
+            mrrBrl: plan === "agency" ? MRR_AGENCY : MRR_PRO,
+          },
+          "info"
         );
 
         if (urow?.email) {
@@ -194,8 +195,10 @@ export async function POST(req: Request) {
           stripe_event_id: event.id,
         });
 
-        await sendSlackAlert(
-          `Cancelamento NeuroConvert: ${u?.plan ?? "?"} (-R$${mrr}/mês)`
+        await logEvent(
+          "stripe_subscription_canceled",
+          { plan: u?.plan ?? null, mrrBrl: mrr },
+          "info"
         );
 
         await scheduleChurnRecovery(supabase, u?.email, u?.plan ?? undefined);
@@ -209,8 +212,13 @@ export async function POST(req: Request) {
           (inv as Stripe.Invoice & { customer_details?: { email?: string | null } })
             .customer_details?.email ??
           null;
-        await sendSlackAlert(
-          `Pagamento falhou (Stripe): ${email ?? String(inv.customer ?? "sem email")}`
+        await logEvent(
+          "stripe_invoice_payment_failed",
+          {
+            invoiceId: inv.id,
+            customer: typeof inv.customer === "string" ? inv.customer : undefined,
+          },
+          "warning"
         );
         if (email) {
           await sendEmail({
@@ -243,10 +251,6 @@ export async function POST(req: Request) {
   } catch (e) {
     const msg = e instanceof Error ? e.message : "unknown";
     await logEvent("stripe_webhook_handler_error", { type: event.type, message: msg }, "critical");
-    await sendSlackAlert("NeuroConvert: erro ao processar webhook Stripe", {
-      type: event.type,
-      message: msg,
-    });
     return new Response("Handler error", { status: 500 });
   }
 

@@ -54,8 +54,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJ...
 RESEND_API_KEY=re_...
 RESEND_FROM=noreply@neuroconvert.com.br
 
-# Alertas internos (Slack webhook — opcional mas recomendado)
-SLACK_ALERT_WEBHOOK=https://hooks.slack.com/services/...
+# Eventos operacionais: `lib/monitoring.ts` → `logEvent()` (tabela `system_events`)
 
 # Admin dashboard
 ADMIN_SECRET=uma-senha-forte-aqui
@@ -241,7 +240,7 @@ export async function POST(req: Request) {
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 import { sendEmail } from '@/lib/email';
-import { sendSlackAlert } from '@/lib/alerts';
+import { logEvent } from '@/lib/monitoring';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const supabase = createClient(
@@ -282,7 +281,7 @@ export async function POST(req: Request) {
         stripe_event_id: event.id
       });
 
-      await sendSlackAlert(`Nova assinatura: ${plan} (+R$${plan === 'agency' ? 997 : 297}/mes)`);
+      await logEvent('stripe_subscription_created', { plan, mrrBrl: plan === 'agency' ? 997 : 297 }, 'info');
       await sendEmail({ to: sub.metadata.email, template: 'welcome_paid', data: { plan } });
       break;
     }
@@ -311,7 +310,7 @@ export async function POST(req: Request) {
         stripe_event_id: event.id
       });
 
-      await sendSlackAlert(`Cancelamento: ${user?.plan} (-R$${user?.plan === 'agency' ? 997 : 297}/mes)`);
+      await logEvent('stripe_subscription_canceled', { plan: user?.plan, mrrBrl: user?.plan === 'agency' ? 997 : 297 }, 'info');
 
       // Sequência automática de recuperação de churn
       await scheduleCancelRecovery(user?.email, user?.plan);
@@ -320,7 +319,7 @@ export async function POST(req: Request) {
 
     case 'invoice.payment_failed': {
       const inv = event.data.object as Stripe.Invoice;
-      await sendSlackAlert(`Pagamento falhou: ${inv.customer_email}`);
+      await logEvent('stripe_invoice_payment_failed', { invoiceId: inv.id }, 'warning');
       await sendEmail({
         to: inv.customer_email!,
         template: 'payment_failed',
@@ -478,7 +477,6 @@ vercel env add SUPABASE_ANON_KEY
 vercel env add SUPABASE_SERVICE_ROLE_KEY
 vercel env add RESEND_API_KEY
 vercel env add RESEND_FROM
-vercel env add SLACK_ALERT_WEBHOOK
 vercel env add ADMIN_SECRET
 vercel env add ADMIN_EMAIL
 vercel env add NEXT_PUBLIC_URL
@@ -631,29 +629,15 @@ function buildEmailBody(template: string, data?: Record<string, unknown>): strin
 }
 ```
 
-### 8.2 Alertas internos — `lib/alerts.ts`
+### 8.2 Observabilidade — `lib/monitoring.ts` (`logEvent`)
+
+Eventos estruturados na tabela `system_events` (Supabase). Consulte no dashboard SQL ou exponha uma vista admin; evite PII em `data`.
 
 ```typescript
-export async function sendSlackAlert(
-  message: string,
-  severity: 'info' | 'warning' | 'error' = 'info'
-) {
-  if (!process.env.SLACK_ALERT_WEBHOOK) return;
-  const color = { info: '#1D9E75', warning: '#BA7517', error: '#E24B4A' }[severity];
-  const emoji  = { info: 'ℹ️',     warning: '⚠️',      error: '🔴'      }[severity];
+import { logEvent } from '@/lib/monitoring';
 
-  await fetch(process.env.SLACK_ALERT_WEBHOOK, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      text: `${emoji} *NeuroConvert*: ${message}`,
-      attachments: [{
-        color,
-        text: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
-      }]
-    })
-  });
-}
+// Ex.: falha crítica
+await logEvent('stripe_webhook_handler_error', { type: event.type, message: msg }, 'critical');
 ```
 
 ### 8.3 Processador da fila de emails — `app/api/cron/email-queue/route.ts`
@@ -729,7 +713,7 @@ Verifique cada dependência crítica. Conecte este endpoint ao UptimeRobot para 
 import { createClient } from '@supabase/supabase-js';
 import Anthropic from '@anthropic-ai/sdk';
 import Stripe from 'stripe';
-import { sendSlackAlert } from '@/lib/alerts';
+import { logEvent } from '@/lib/monitoring';
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
@@ -803,7 +787,7 @@ export async function GET() {
 
   if (!allOk) {
     const failed = Object.entries(checks).filter(([, v]) => !v.ok).map(([k]) => k);
-    await sendSlackAlert(`Health check falhou: ${failed.join(', ')}`, 'error');
+    await logEvent('health_check_degraded', { failed }, 'error');
   }
 
   return Response.json(
@@ -1203,7 +1187,7 @@ Cada serviço tem um ponto de saturação. Este cron roda diariamente e avisa an
 
 ```typescript
 import { createClient } from '@supabase/supabase-js';
-import { sendSlackAlert } from '@/lib/alerts';
+import { logEvent } from '@/lib/monitoring';
 import { sendEmail } from '@/lib/email';
 
 const supabase = createClient(
@@ -1277,10 +1261,10 @@ export async function GET(req: Request) {
     alerts.push('⚠️ Margem caindo: ' + margin.toFixed(0) + '%. Revisar custos. MRR: R$' + mrr + ' / Infra: R$' + infraCost.toFixed(0));
   }
 
-  // Enviar alertas consolidados
+  // Persistir alertas consolidados (email ao admin continua opcional)
   if (alerts.length > 0) {
     const severity = alerts.some(a => a.startsWith('🔴')) ? 'error' : 'warning';
-    await sendSlackAlert('Relatório de uso:\n' + alerts.join('\n'), severity);
+    await logEvent('usage_monitor', { messages: alerts }, severity);
     await sendEmail({
       to: process.env.ADMIN_EMAIL!,
       template: 'weekly_mrr_report',

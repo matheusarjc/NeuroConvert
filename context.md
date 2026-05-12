@@ -26,7 +26,7 @@ SaaS B2B de otimização de conversão com neuromarketing. O usuário cola uma U
 | Banco      | Supabase (PostgreSQL)                   |
 | Email      | Resend                                  |
 | Hosting    | Vercel + cron jobs nativos              |
-| Alertas    | Slack webhook                           |
+| Observabilidade | `system_events` via `logEvent()`   |
 
 ---
 
@@ -49,7 +49,6 @@ SaaS B2B de otimização de conversão com neuromarketing. O usuário cola uma U
   /admin              → dashboard protegido por cookie
 /lib
   /email.ts           → sendEmail() com templates
-  /alerts.ts          → sendSlackAlert()
   /microeconomics.ts  → calcLTV(), calcNRR(), projectedMrrSCurve()
   /monitoring.ts      → logEvent()
 /middleware.ts        → proteção da rota /admin
@@ -95,7 +94,6 @@ SUPABASE_ANON_KEY
 SUPABASE_SERVICE_ROLE_KEY
 RESEND_API_KEY
 RESEND_FROM
-SLACK_ALERT_WEBHOOK
 ADMIN_SECRET
 ADMIN_EMAIL
 NEXT_PUBLIC_URL

@@ -1,6 +1,7 @@
 # editor / local — manter MCP do Supabase no Git; settings locais ignorados
 .cursor/*
 !.cursor/mcp.json
+.claude/*
 
 # skills instalados com `npx skills add` (reinstalar após clone)
 .agents/

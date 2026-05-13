@@ -4,19 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { KlarivyLockup } from "@/components/brand/KlarivyLogo";
 import { getBrowserSupabase } from "@/lib/supabase/browser";
-
-function LogoMark({ className }: { className?: string }) {
-  return (
-    <svg className={className} width="28" height="28" viewBox="0 0 36 36" fill="none" aria-hidden="true">
-      <rect x="4" y="6" width="6" height="24" rx="3" fill="#1D9E75" />
-      <polygon points="10,6 16,6 22,30 16,30" fill="#1D9E75" />
-      <rect x="16" y="6" width="6" height="24" rx="3" fill="#1D9E75" />
-      <circle cx="28" cy="9" r="3" fill="#25C98F" />
-      <circle cx="28" cy="9" r="5.5" fill="none" stroke="#25C98F" strokeWidth="1.5" opacity="0.4" />
-    </svg>
-  );
-}
 
 function ScoreRing({ score, color, size = 160, stroke = 12 }: { score: number; color: string; size?: number; stroke?: number }) {
   const r = (size - stroke) / 2;
@@ -112,13 +101,10 @@ export function LandingPage() {
       >
         <Link
           href="/"
-          title="Klarivy — laudos com metodologia NeuroConvert"
-          className="flex shrink-0 items-center gap-2 outline-none ring-[var(--color-primary)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-base)]"
+          title="klarivy — laudos com metodologia NeuroConvert"
+          className="flex shrink-0 items-center outline-none ring-[var(--color-primary)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-base)]"
         >
-          <LogoMark />
-          <span className="font-display text-lg font-bold tracking-tight">
-            Klar<span className="text-[var(--color-primary)]">ivy</span>
-          </span>
+          <KlarivyLockup priority boxClassName="h-8 w-[min(52vw,200px)] sm:w-[200px]" />
         </Link>
         <div className="hidden flex-1 items-center justify-center gap-8 md:flex">
           <a href="#metodologia" className="text-sm font-medium text-[var(--color-fg-2)] transition-colors hover:text-[var(--color-fg-1)]">
@@ -593,11 +579,8 @@ export function LandingPage() {
       <footer className="border-t border-[var(--color-border)] px-6 py-12 md:px-10">
         <div className="mx-auto flex max-w-[1100px] flex-wrap justify-between gap-10">
           <div className="max-w-[220px]">
-            <div className="mb-3 flex items-center gap-2">
-              <LogoMark className="h-5 w-5" />
-              <span className="font-display text-sm font-bold text-[var(--color-fg-1)]">
-                Klar<span className="text-[var(--color-primary)]">ivy</span>
-              </span>
+            <div className="mb-3">
+              <KlarivyLockup boxClassName="h-6 w-full max-w-[168px]" />
             </div>
             <p className="text-xs leading-relaxed text-[var(--color-fg-3)]">
               Laudos de conversão com base na metodologia NeuroConvert.

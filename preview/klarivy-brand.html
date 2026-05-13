@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klarivy — Identidade Visual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0A0A0A;
+      --surface:  #141414;
+      --elevated: #1C1C1C;
+      --raised:   #242424;
+      --border:   rgba(255,255,255,0.08);
+      --bd-str:   rgba(255,255,255,0.14);
+      --p:        #1D9E75;
+      --pl:       #25C98F;
+      --pm:       rgba(29,158,117,0.12);
+      --pg:       rgba(29,158,117,0.28);
+      --f1:       #FFFFFF;
+      --f2:       #9CA3AF;
+      --f3:       #4B5563;
+      --dsp:      'Space Grotesk', system-ui, sans-serif;
+      --ui:       'DM Sans', system-ui, sans-serif;
+      --mono:     'JetBrains Mono', monospace;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--f1);
+      font-family: var(--ui);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      padding: 16px 48px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10,10,10,0.88);
+      backdrop-filter: blur(14px);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-left { display: flex; align-items: center; gap: 10px; }
+    .nav-wm {
+      font-family: var(--dsp); font-weight: 700; font-size: 18px;
+      letter-spacing: -0.02em; color: var(--f1); line-height: 1;
+    }
+    .nav-tag {
+      font-family: var(--mono); font-size: 10px; color: var(--f3);
+      letter-spacing: 0.07em;
+    }
+
+    /* ── WRAP / SECTIONS ── */
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 48px; }
+
+    .sec {
+      padding: 88px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .sec:last-child { border-bottom: none; padding-bottom: 120px; }
+
+    .sec-lbl {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.14em;
+      color: var(--p); margin-bottom: 8px;
+    }
+    .sec-title {
+      font-family: var(--dsp); font-size: 26px; font-weight: 600;
+      color: var(--f1); line-height: 1.2; margin-bottom: 10px;
+    }
+    .sec-desc {
+      font-size: 14px; color: var(--f2); line-height: 1.8;
+      max-width: 520px; margin-bottom: 52px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 128px 0 108px;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 700px 420px at 50% 20%, rgba(29,158,117,0.11) 0%, transparent 68%);
+    }
+    .hero-lockup {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      gap: 28px; margin-bottom: 32px;
+      animation: rise 0.9s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .hero-icon-wrap {
+      position: relative;
+    }
+    .hero-icon-halo {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(29,158,117,0.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .hero-wm {
+      font-family: var(--dsp); font-weight: 700;
+      font-size: 72px; letter-spacing: -0.03em;
+      color: var(--f1); line-height: 1;
+    }
+    .hero-sub {
+      font-family: var(--mono); font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.12em;
+      color: var(--f3);
+      animation: rise 0.9s 0.15s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── GRIDS ── */
+    .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .g4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+
+    /* ── SHOWCASE CARDS ── */
+    .card {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 52px 28px 24px;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 24px;
+    }
+    .c-bg      { background: var(--bg); }
+    .c-surface { background: var(--surface); }
+    .c-light   { background: #E2E8F0; }
+    .c-white   { background: #FFFFFF; }
+    .c-emerald { background: var(--p); }
+
+    .card-lbl {
+      font-family: var(--mono); font-size: 10px;
+      letter-spacing: 0.07em; text-align: center;
+      color: var(--f3);
+    }
+    .c-light .card-lbl,
+    .c-white .card-lbl { color: #64748B; }
+    .c-emerald .card-lbl { color: rgba(10,10,10,0.45); }
+
+    /* ── ANATOMY ── */
+    .anatomy-grid {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+    .anatomy-icon-wrap {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .anatomy-halo {
+      position: absolute; inset: -32px;
+      background: radial-gradient(circle, rgba(29,158,117,0.12) 0%, transparent 65%);
+      border-radius: 50%;
+    }
+    .anatomy-notes { display: flex; flex-direction: column; gap: 30px; }
+    .an-item { display: flex; gap: 16px; align-items: flex-start; }
+    .an-num {
+      flex-shrink: 0;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--pm); border: 1px solid rgba(29,158,117,0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      color: var(--p);
+    }
+    .an-text h4 {
+      font-size: 13px; font-weight: 600; color: var(--f1);
+      margin-bottom: 4px;
+    }
+    .an-text p { font-size: 13px; color: var(--f2); line-height: 1.65; }
+
+    /* ── LOCKUP VARIATIONS ── */
+    .lockup { display: flex; align-items: center; gap: 12px; }
+    .lockup-stack { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .lwm {
+      font-family: var(--dsp); font-weight: 700;
+      letter-spacing: -0.02em; color: var(--f1); line-height: 1;
+    }
+
+    /* ── SCALE ── */
+    .scale-track {
+      display: flex; align-items: flex-end; gap: 40px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 48px 52px 40px;
+    }
+    .scale-item { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .scale-sz {
+      font-family: var(--mono); font-size: 10px; color: var(--f3);
+    }
+
+    /* ── CONCEPT ── */
+    .concept-cols {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
+    }
+    .cb { margin-bottom: 36px; }
+    .cb:last-child { margin-bottom: 0; }
+    .cb h3 {
+      font-family: var(--dsp); font-size: 14px; font-weight: 600;
+      color: var(--f1); margin-bottom: 10px;
+    }
+    .cb p { font-size: 14px; color: var(--f2); line-height: 1.82; }
+    .cb p + p { margin-top: 10px; }
+
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 16px;
+      padding: 6px 14px; border-radius: 6px;
+      background: var(--pm); border: 1px solid rgba(29,158,117,0.22);
+      font-family: var(--mono); font-size: 12px; color: var(--p);
+    }
+    .chip-dot {
+      width: 10px; height: 10px; border-radius: 50%; background: var(--p);
+    }
+
+    /* ── RULES ── */
+    .rule {
+      border-radius: 10px; padding: 24px 26px;
+      border: 1px solid;
+    }
+    .rule-do {
+      background: rgba(34,197,94,0.04);
+      border-color: rgba(34,197,94,0.18);
+    }
+    .rule-dont {
+      background: rgba(239,68,68,0.04);
+      border-color: rgba(239,68,68,0.18);
+    }
+    .rule-tag {
+      display: inline-block;
+      font-family: var(--mono); font-size: 10px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      padding: 3px 8px; border-radius: 4px;
+      margin-bottom: 11px;
+    }
+    .rule-do   .rule-tag { background: rgba(34,197,94,0.15);  color: #22C55E; }
+    .rule-dont .rule-tag { background: rgba(239,68,68,0.15);  color: #EF4444; }
+    .rule p { font-size: 13px; color: var(--f2); line-height: 1.7; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px; background: var(--border); margin: 0;
+    }
+  </style>
+  <template id="__bundler_thumbnail" data-bg-color="#0A0A0A">
+    <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background -->
+      <rect width="400" height="300" fill="#0A0A0A"/>
+      <!-- Glow -->
+      <radialGradient id="g" cx="50%" cy="40%" r="40%">
+        <stop offset="0%" stop-color="#1D9E75" stop-opacity="0.18"/>
+        <stop offset="100%" stop-color="#0A0A0A" stop-opacity="0"/>
+      </radialGradient>
+      <rect width="400" height="300" fill="url(#g)"/>
+      <!-- Icon container -->
+      <rect x="145" y="70" width="110" height="110" rx="28" fill="#141414" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+      <!-- K mark -->
+      <line x1="177" y1="93" x2="177" y2="157" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+      <line x1="177" y1="125" x2="222" y2="93" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+      <line x1="177" y1="125" x2="222" y2="157" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="177" cy="125" r="9" fill="#1D9E75"/>
+      <!-- Wordmark -->
+      <text x="200" y="220" font-family="sans-serif" font-weight="700" font-size="36" letter-spacing="-1" fill="#FFFFFF" text-anchor="middle">klarivy</text>
+    </svg>
+  </template>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<nav>
+  <div class="nav-left">
+    <svg width="26" height="26" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+      <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#141414" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+      <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+    </svg>
+    <span class="nav-wm">klarivy</span>
+  </div>
+  <span class="nav-tag">Identidade Visual · v1.0</span>
+</nav>
+
+<!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="wrap">
+    <div class="hero-lockup">
+      <div class="hero-icon-wrap">
+        <div class="hero-icon-halo"></div>
+        <svg width="100" height="100" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#141414" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+          <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+        </svg>
+      </div>
+      <span class="hero-wm">klarivy</span>
+    </div>
+    <p class="hero-sub">Identidade Visual · Klarivy · 2025</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ════════════════════════════════════════
+       01 — ANATOMIA
+  ════════════════════════════════════════ -->
+  <section class="sec">
+    <div class="sec-lbl">01 — Símbolo</div>
+    <h2 class="sec-title">Anatomia da marca</h2>
+    <p class="sec-desc">O símbolo Klarivy reduz a letra K à sua estrutura geométrica essencial: três traços e um nó de convergência.</p>
+
+    <div class="anatomy-grid">
+      <div class="anatomy-icon-wrap">
+        <div class="anatomy-halo"></div>
+        <svg width="220" height="220" viewBox="0 0 48 48" fill="none" aria-label="Klarivy mark">
+          <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#141414" stroke="rgba(255,255,255,0.09)" stroke-width="1.5"/>
+          <!-- subtle grid lines for annotation feel -->
+          <line x1="15" y1="4" x2="15" y2="44" stroke="rgba(29,158,117,0.08)" stroke-width="0.75" stroke-dasharray="2 2"/>
+          <line x1="4" y1="24" x2="44" y2="24" stroke="rgba(29,158,117,0.08)" stroke-width="0.75" stroke-dasharray="2 2"/>
+          <!-- K strokes -->
+          <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Node -->
+          <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+        </svg>
+      </div>
+
+      <div class="anatomy-notes">
+        <div class="an-item">
+          <div class="an-num">1</div>
+          <div class="an-text">
+            <h4>Haste vertical</h4>
+            <p>O eixo estrutural do K — ancora a composição e define o alinhamento esquerdo do símbolo. Inicia e termina com caps arredondados.</p>
+          </div>
+        </div>
+        <div class="an-item">
+          <div class="an-num">2</div>
+          <div class="an-text">
+            <h4>Braços diagonais</h4>
+            <p>Angulação de 28° a partir da horizontal — precisa o suficiente para parecer calculada, aberta o suficiente para não ser agressiva. Os dois braços são simétricos.</p>
+          </div>
+        </div>
+        <div class="an-item">
+          <div class="an-num">3</div>
+          <div class="an-text">
+            <h4>Nó de clareza</h4>
+            <p>O círculo no ponto de junção dos três elementos. Representa a convergência — o momento em que dados se tornam insight. Usa o esmeralda primário em peso cheio.</p>
+          </div>
+        </div>
+        <div class="an-item">
+          <div class="an-num">4</div>
+          <div class="an-text">
+            <h4>Container</h4>
+            <p>Quadrado arredondado, rx = 25% — compatível com grids de ícone iOS, Android e macOS. Mais contido que um círculo; mais moderno que um quadrado reto.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       02 — LOCKUPS
+  ════════════════════════════════════════ -->
+  <section class="sec">
+    <div class="sec-lbl">02 — Lockups</div>
+    <h2 class="sec-title">Variações de lockup</h2>
+    <p class="sec-desc">Quatro configurações para diferentes contextos de aplicação. O horizontal é o formato principal.</p>
+
+    <div class="g2">
+      <!-- Horizontal (primary) -->
+      <div class="card c-surface">
+        <div class="lockup">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#1C1C1C" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+            <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+          </svg>
+          <span class="lwm" style="font-size:34px;">klarivy</span>
+        </div>
+        <span class="card-lbl">HORIZONTAL — FORMATO PRINCIPAL</span>
+      </div>
+
+      <!-- Stacked -->
+      <div class="card c-surface">
+        <div class="lockup-stack">
+          <svg width="56" height="56" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#1C1C1C" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+            <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+          </svg>
+          <span class="lwm" style="font-size:30px;">klarivy</span>
+        </div>
+        <span class="card-lbl">VERTICAL EMPILHADO</span>
+      </div>
+
+      <!-- Mark only -->
+      <div class="card c-surface">
+        <svg width="88" height="88" viewBox="0 0 48 48" fill="none" aria-label="Klarivy mark">
+          <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#1C1C1C" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+          <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+        </svg>
+        <span class="card-lbl">SÓ O SÍMBOLO</span>
+      </div>
+
+      <!-- Wordmark only -->
+      <div class="card c-surface" style="justify-content:center;">
+        <span class="lwm" style="font-size:44px;">klarivy</span>
+        <span class="card-lbl">SÓ O WORDMARK</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       03 — APLICAÇÕES
+  ════════════════════════════════════════ -->
+  <section class="sec">
+    <div class="sec-lbl">03 — Fundos</div>
+    <h2 class="sec-title">Aplicações sobre fundos</h2>
+    <p class="sec-desc">A marca opera primariamente em fundos escuros. As versões clara e esmeralda são para contextos excepcionais.</p>
+
+    <div class="g4">
+      <!-- Dark / primary -->
+      <div class="card c-bg">
+        <div class="lockup" style="gap:10px;">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#141414" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+            <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+          </svg>
+          <span style="font-family:var(--dsp);font-weight:700;font-size:22px;letter-spacing:-0.02em;color:#FFFFFF;line-height:1;">klarivy</span>
+        </div>
+        <span class="card-lbl">DARK — PRINCIPAL</span>
+      </div>
+
+      <!-- Surface -->
+      <div class="card c-surface">
+        <div class="lockup" style="gap:10px;">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#1C1C1C" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+            <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+          </svg>
+          <span style="font-family:var(--dsp);font-weight:700;font-size:22px;letter-spacing:-0.02em;color:#FFFFFF;line-height:1;">klarivy</span>
+        </div>
+        <span class="card-lbl">SURFACE — CARDS</span>
+      </div>
+
+      <!-- Light -->
+      <div class="card c-light" style="border-color:rgba(0,0,0,0.08);">
+        <div class="lockup" style="gap:10px;">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#FFFFFF" stroke="rgba(0,0,0,0.1)" stroke-width="1.5"/>
+            <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+          </svg>
+          <span style="font-family:var(--dsp);font-weight:700;font-size:22px;letter-spacing:-0.02em;color:#0A0A0A;line-height:1;">klarivy</span>
+        </div>
+        <span class="card-lbl">CLARO — EXCEPCIONAL</span>
+      </div>
+
+      <!-- Emerald -->
+      <div class="card c-emerald" style="border-color:rgba(0,0,0,0.12);">
+        <div class="lockup" style="gap:10px;">
+          <svg width="36" height="36" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+            <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+            <line x1="15" y1="12" x2="15" y2="36" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="12" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="35" y2="36" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="15" cy="24" r="3.5" fill="#FFFFFF"/>
+          </svg>
+          <span style="font-family:var(--dsp);font-weight:700;font-size:22px;letter-spacing:-0.02em;color:#FFFFFF;line-height:1;">klarivy</span>
+        </div>
+        <span class="card-lbl">ESMERALDA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       04 — ESCALA
+  ════════════════════════════════════════ -->
+  <section class="sec">
+    <div class="sec-lbl">04 — Escala</div>
+    <h2 class="sec-title">Escala mínima de uso</h2>
+    <p class="sec-desc">O símbolo mantém legibilidade até 20px. Abaixo disso, utilize apenas o wordmark.</p>
+
+    <div class="scale-track">
+      <div class="scale-item">
+        <svg width="120" height="120" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#1C1C1C" stroke="rgba(255,255,255,0.09)" stroke-width="1.5"/>
+          <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+        </svg>
+        <span class="scale-sz">120px</span>
+      </div>
+      <div class="scale-item">
+        <svg width="64" height="64" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#1C1C1C" stroke="rgba(255,255,255,0.09)" stroke-width="1.5"/>
+          <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+        </svg>
+        <span class="scale-sz">64px</span>
+      </div>
+      <div class="scale-item">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#1C1C1C" stroke="rgba(255,255,255,0.09)" stroke-width="1.5"/>
+          <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+        </svg>
+        <span class="scale-sz">48px</span>
+      </div>
+      <div class="scale-item">
+        <svg width="32" height="32" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#1C1C1C" stroke="rgba(255,255,255,0.09)" stroke-width="1.5"/>
+          <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+        </svg>
+        <span class="scale-sz">32px</span>
+      </div>
+      <div class="scale-item">
+        <svg width="24" height="24" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#1C1C1C" stroke="rgba(255,255,255,0.09)" stroke-width="1.5"/>
+          <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+        </svg>
+        <span class="scale-sz">24px</span>
+      </div>
+      <div class="scale-item" style="opacity:0.35;">
+        <svg width="20" height="20" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <rect x="0.75" y="0.75" width="46.5" height="46.5" rx="12" fill="#1C1C1C" stroke="rgba(255,255,255,0.09)" stroke-width="1.5"/>
+          <line x1="15" y1="12" x2="15" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="12" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="15" y1="24" x2="35" y2="36" stroke="#1D9E75" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="15" cy="24" r="3.5" fill="#1D9E75"/>
+        </svg>
+        <span class="scale-sz">20px — mínimo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       05 — CONCEITO
+  ════════════════════════════════════════ -->
+  <section class="sec">
+    <div class="sec-lbl">05 — Conceito</div>
+    <h2 class="sec-title">O que é a marca Klarivy</h2>
+    <p class="sec-desc">A identidade como sistema de valores — não apenas como forma.</p>
+
+    <div class="concept-cols">
+      <div>
+        <div class="cb">
+          <h3>O símbolo</h3>
+          <p>A marca Klarivy é construída a partir da geometria precisa da letra K — decomposta em três elementos fundamentais: uma haste vertical, dois braços diagonais com angulação de 28°, e um nó central que os unifica no ponto de junção.</p>
+          <p>O nó é o coração da marca. Representa o momento exato em que dados dispersos se tornam clareza — a convergência entre análise e insight. É o verde esmeralda da plataforma: a cor de resultado positivo, diagnóstico bem-sucedido, conversão alcançada.</p>
+        </div>
+        <div class="cb">
+          <h3>O nome</h3>
+          <p>"Klarivy" evoca clareza (<em>klarity</em>) com uma torção contemporânea. Breve, memorável, único. Soa como tecnologia de ponta sem carregar o peso de metáforas neurológicas explícitas — deixando espaço para o produto falar por si.</p>
+        </div>
+      </div>
+      <div>
+        <div class="cb">
+          <h3>O wordmark</h3>
+          <p>Caixa baixa, Space Grotesk 700, tracking −0.02em. Geométrica e precisa, com leves peculiaridades de curva que evitam a frieza de uma grotesca pura. O peso 700 confere autoridade sem rigidez. O tracking negativo unifica as sete letras em um bloco coeso.</p>
+        </div>
+        <div class="cb">
+          <h3>A cor</h3>
+          <p>Um único acento cromático: o esmeralda. Toda a identidade opera em torno de fundos escuros neutros e esse acento preciso. Essa restrição é intencional — no produto, o esmeralda já <em>significa algo</em>. Usá-lo com critério na identidade prolonga e reforça esse significado.</p>
+          <div class="chip">
+            <div class="chip-dot"></div>
+            #1D9E75 — Esmeralda
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       06 — REGRAS
+  ════════════════════════════════════════ -->
+  <section class="sec">
+    <div class="sec-lbl">06 — Regras de uso</div>
+    <h2 class="sec-title">O que fazer e o que evitar</h2>
+    <p class="sec-desc">Consistência é o que transforma uma forma em uma marca.</p>
+
+    <div class="g2" style="gap:16px;">
+      <div class="rule rule-do">
+        <span class="rule-tag">✓ Faça</span>
+        <p>Use o lockup horizontal como configuração principal em headers, navegação e documentos.</p>
+      </div>
+      <div class="rule rule-dont">
+        <span class="rule-tag">✕ Evite</span>
+        <p>Não distorça, estique ou altere as proporções do símbolo ou do wordmark em nenhuma dimensão.</p>
+      </div>
+      <div class="rule rule-do">
+        <span class="rule-tag">✓ Faça</span>
+        <p>Use exclusivamente sobre fundos escuros, brancos ou esmeralda. Mantenha um espaço de proteção igual ao tamanho do símbolo em todos os lados.</p>
+      </div>
+      <div class="rule rule-dont">
+        <span class="rule-tag">✕ Evite</span>
+        <p>Não aplique a marca sobre fotografia ou fundos com textura. Não altere as cores do símbolo, do wordmark ou do container.</p>
+      </div>
+      <div class="rule rule-do">
+        <span class="rule-tag">✓ Faça</span>
+        <p>Use o símbolo isolado (sem wordmark) apenas quando a marca já for reconhecida no contexto, como favicons e avatares.</p>
+      </div>
+      <div class="rule rule-dont">
+        <span class="rule-tag">✕ Evite</span>
+        <p>Não adicione sombras, outlines, gradientes ou efeitos decorativos sobre a marca. Não recrie o símbolo em outra ferramenta.</p>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /.wrap -->
+
+</body>
+</html>

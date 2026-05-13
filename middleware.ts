@@ -23,7 +23,13 @@ export function middleware(request: NextRequest) {
     if (pathname.startsWith("/_next") || pathname.startsWith("/maintenance")) {
       return NextResponse.next();
     }
-    if (pathname === "/favicon.ico" || pathname === "/robots.txt" || pathname === "/sitemap.xml") {
+    if (
+      pathname === "/favicon.ico" ||
+      pathname === "/icon" ||
+      pathname === "/apple-icon" ||
+      pathname === "/robots.txt" ||
+      pathname === "/sitemap.xml"
+    ) {
       return NextResponse.next();
     }
     if (pathname.startsWith("/api/webhook")) {

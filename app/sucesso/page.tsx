@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { KlarivyLockup } from "@/components/brand/KlarivyLogo";
+
 type Props = {
   searchParams: { session_id?: string };
 };
@@ -9,8 +11,10 @@ export default function SucessoPage({ searchParams }: Props) {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center bg-[var(--color-bg-base)] px-6 py-16 text-center text-[var(--color-fg-1)]">
-      <p className="text-sm font-semibold uppercase tracking-widest text-[var(--color-primary)]">Klarivy</p>
-      <h1 className="mt-4 font-display text-3xl font-bold">Pagamento recebido</h1>
+      <div className="mx-auto mb-6 flex justify-center">
+        <KlarivyLockup boxClassName="h-9 w-[min(90vw,220px)]" />
+      </div>
+      <h1 className="mt-2 font-display text-3xl font-bold">Pagamento recebido</h1>
       <p className="mt-4 text-[var(--color-fg-2)]">
         O Stripe confirmou a sessão. O nosso servidor ativa o plano Pro e os créditos via webhook — em geral leva segundos. Se o
         plano não atualizar, atualize a página ou volte mais tarde; em caso de falha prolongada do webhook, contacte{" "}

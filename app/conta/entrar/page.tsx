@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useId, useState } from "react";
 
+import { KlarivyLockup } from "@/components/brand/KlarivyLogo";
 import { getBrowserSupabase } from "@/lib/supabase/browser";
 
 function EntrarForm() {
@@ -44,8 +45,10 @@ function EntrarForm() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center bg-[var(--color-bg-base)] px-6 py-16 text-[var(--color-fg-1)]">
-      <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)]">Klarivy</p>
-      <h1 className="mt-2 font-display text-2xl font-bold">Entrar</h1>
+      <div className="mb-1">
+        <KlarivyLockup boxClassName="h-8 w-[min(85vw,200px)]" />
+      </div>
+      <h1 className="mt-4 font-display text-2xl font-bold">Entrar</h1>
       <p className="mt-2 text-sm text-[var(--color-fg-2)]">Acesse para gerar laudos com seus créditos.</p>
 
       <form id={formId} onSubmit={onSubmit} className="mt-8 space-y-4">

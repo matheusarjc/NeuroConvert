@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { KlarivyLockup } from "@/components/brand/KlarivyLogo";
+
 export const metadata: Metadata = {
   title: "Em breve | Klarivy",
   description: "Estamos a preparar a nova experiência. Voltamos em breve.",
@@ -19,6 +21,9 @@ export default function MaintenancePage() {
         aria-hidden
       />
       <div className="relative z-[1] max-w-lg">
+        <div className="mx-auto mb-8 flex justify-center">
+          <KlarivyLockup boxClassName="h-9 w-[min(90vw,220px)]" />
+        </div>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-primary)]">Manutenção</p>
         <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-[var(--color-fg-1)] md:text-5xl">
           Voltamos em breve

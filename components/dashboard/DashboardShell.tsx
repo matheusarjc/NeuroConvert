@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+
+import { KlarivySymbol } from "@/components/brand/KlarivyLogo";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
@@ -119,13 +121,8 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
     <div className="flex h-screen overflow-hidden bg-[var(--color-bg-base)] font-sans text-[var(--color-fg-1)]">
       <aside className="z-10 flex w-[60px] shrink-0 flex-col items-center border-r border-[rgba(255,255,255,0.05)] bg-[var(--color-bg-surface)] py-4">
         <div className="mb-5 flex w-full justify-center border-b border-[rgba(255,255,255,0.06)] pb-4">
-          <Link href="/" aria-label="Klarivy — início" className="outline-none ring-[var(--color-primary)] focus-visible:ring-2">
-            <svg width="28" height="28" viewBox="0 0 36 36" fill="none" aria-hidden>
-              <rect x="4" y="6" width="6" height="24" rx="3" fill="#1D9E75" />
-              <polygon points="10,6 16,6 22,30 16,30" fill="#1D9E75" />
-              <rect x="16" y="6" width="6" height="24" rx="3" fill="#1D9E75" />
-              <circle cx="28" cy="9" r="3" fill="#25C98F" />
-            </svg>
+          <Link href="/" aria-label="klarivy — início" className="outline-none ring-[var(--color-primary)] focus-visible:ring-2">
+            <KlarivySymbol size={28} />
           </Link>
         </div>
         <nav className="flex flex-1 flex-col items-center gap-1.5" aria-label="Dashboard">

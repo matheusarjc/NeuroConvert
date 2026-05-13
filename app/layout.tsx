@@ -21,8 +21,9 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NeuroConvert",
-  description: "Otimização de conversão com neuromarketing",
+  title: "Klarivy",
+  description:
+    "Laudos de conversão com base na metodologia NeuroConvert — score, benchmark e ações priorizadas.",
 };
 
 export default function RootLayout({

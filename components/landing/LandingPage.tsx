@@ -22,10 +22,25 @@ function ScoreRing({ score, color, size = 160, stroke = 12 }: { score: number; c
   const r = (size - stroke) / 2;
   const circ = 2 * Math.PI * r;
   const [cur, setCur] = useState(0);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
   useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const onChange = () => setReducedMotion(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setCur(score);
+      return;
+    }
     const t = setTimeout(() => setCur(score), 300);
     return () => clearTimeout(t);
-  }, [score]);
+  }, [score, reducedMotion]);
+
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="overflow-visible" aria-hidden>
       <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth={stroke} />
@@ -41,8 +56,8 @@ function ScoreRing({ score, color, size = 160, stroke = 12 }: { score: number; c
         strokeLinecap="round"
         transform={`rotate(-90 ${size / 2} ${size / 2})`}
         style={{
-          transition: "stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1)",
-          filter: `drop-shadow(0 0 6px ${color}55)`,
+          transition: reducedMotion ? "none" : "stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1)",
+          filter: reducedMotion ? undefined : `drop-shadow(0 0 6px ${color}55)`,
         }}
       />
     </svg>
@@ -95,10 +110,14 @@ export function LandingPage() {
         }`}
         aria-label="Principal"
       >
-        <Link href="/" className="flex shrink-0 items-center gap-2 outline-none ring-[var(--color-primary)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-base)]">
+        <Link
+          href="/"
+          title="Klarivy — laudos com metodologia NeuroConvert"
+          className="flex shrink-0 items-center gap-2 outline-none ring-[var(--color-primary)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-base)]"
+        >
           <LogoMark />
           <span className="font-display text-lg font-bold tracking-tight">
-            Neuro<span className="text-[var(--color-primary)]">Convert</span>
+            Klar<span className="text-[var(--color-primary)]">ivy</span>
           </span>
         </Link>
         <div className="hidden flex-1 items-center justify-center gap-8 md:flex">
@@ -144,7 +163,7 @@ export function LandingPage() {
             onClick={goAnalyze}
             className="h-9 rounded-md bg-[var(--color-primary)] px-4 text-sm font-semibold text-white outline-none ring-[var(--color-primary)] transition-colors hover:bg-[var(--color-primary-light)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-base)]"
           >
-            Analisar grátis
+            Gerar laudo
           </button>
         </div>
         <div
@@ -192,29 +211,18 @@ export function LandingPage() {
         />
         <div className="relative z-[1] flex w-full max-w-[1100px] flex-col items-center gap-12 lg:flex-row lg:items-center lg:gap-[72px]">
           <div className="flex w-full flex-1 flex-col gap-5">
-            <div className="flex w-fit items-center gap-2">
-              <div className="flex">
-                {["#22C55E", "#1D9E75", "#25C98F"].map((c, i) => (
-                  <div
-                    key={c}
-                    className={`flex h-[22px] w-[22px] items-center justify-center rounded-full border-[1.5px] border-[var(--color-bg-base)] ${i > 0 ? "-ml-[7px]" : ""}`}
-                    style={{ background: c }}
-                  >
-                    <span className="font-display text-[9px] font-bold text-white">A</span>
-                  </div>
-                ))}
-              </div>
-              <span className="text-xs text-[var(--color-fg-2)]">
-                <span className="font-semibold text-[var(--color-fg-1)]">412 equipes</span> analisaram páginas esta semana
-              </span>
-            </div>
+            <p className="max-w-[520px] text-xs leading-relaxed text-[var(--color-fg-2)]">
+              <span className="font-semibold text-[var(--color-fg-1)]">Para quem é:</span> founders e equipas de growth de produtos
+              digitais (SaaS, e-commerce, educação) que querem um laudo estruturado antes de investir em redesign ou tráfego pago.
+            </p>
 
             <h1 className="max-w-[540px] font-display text-4xl font-bold leading-[1.08] tracking-tight text-[var(--color-fg-1)] md:text-[50px]">
               Você está perdendo receita em cada visita que não converte
             </h1>
             <p className="max-w-[460px] text-base leading-relaxed text-[var(--color-fg-2)]">
-              NeuroConvert identifica os bloqueios neuropsicológicos que impedem seus visitantes de comprar — e entrega um laudo com
-              score 0–100 e ações priorizadas.
+              A <strong className="font-medium text-[var(--color-fg-1)]">Klarivy</strong> identifica bloqueios neuropsicológicos na sua
+              página e devolve um laudo com score 0–100, benchmark do setor e ações priorizadas — com base na metodologia{" "}
+              <strong className="font-medium text-[var(--color-fg-1)]">NeuroConvert</strong>.
             </p>
 
             <div className="flex flex-col gap-2 sm:flex-row sm:gap-2">
@@ -234,10 +242,13 @@ export function LandingPage() {
                 onClick={goAnalyze}
                 className="h-12 shrink-0 whitespace-nowrap rounded-lg bg-[var(--color-primary)] px-6 text-sm font-semibold text-white outline-none ring-[var(--color-primary)] transition hover:bg-[var(--color-primary-light)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-base)]"
               >
-                Analisar gratuitamente →
+                Gerar laudo →
               </button>
             </div>
-            <p className="text-[11px] text-[var(--color-fg-3)]">Grátis · Sem cartão · Resultado em &lt;2 min</p>
+            <p className="text-[11px] text-[var(--color-fg-3)]">
+              Conta gratuita obrigatória · 1 laudo incluído no free · Sem cartão no plano gratuito · Laudo em poucos minutos (depende
+              da página e da fila)
+            </p>
 
             <div className="mt-1 flex flex-wrap gap-2">
               {["Cialdini · Persuasão", "Kahneman · Comportamental", "Nielsen Norman · UX"].map((b) => (
@@ -253,21 +264,24 @@ export function LandingPage() {
               ))}
             </div>
 
-            <div className="mt-2 flex flex-wrap gap-8 border-t border-[var(--color-border)] pt-4">
+            <div className="mt-2 flex flex-wrap gap-6 border-t border-[var(--color-border)] pt-4">
               {[
-                ["2.847", "laudos publicados"],
-                ["R$ 4.2M", "em receita recuperada"],
-                ["94%", "de precisão nos diagnósticos"],
-              ].map(([v, l]) => (
-                <div key={v}>
-                  <div className="font-display text-[22px] font-bold leading-none tracking-tight text-[var(--color-fg-1)]">{v}</div>
-                  <div className="mt-1 text-[11px] text-[var(--color-fg-3)]">{l}</div>
+                ["Score 0–100", "com rótulo qualitativo"],
+                ["Benchmark", "por setor no laudo"],
+                ["Quick wins", "ordenados por impacto esperado"],
+              ].map(([t, d]) => (
+                <div key={t} className="min-w-[120px]">
+                  <div className="font-display text-[15px] font-bold leading-snug tracking-tight text-[var(--color-fg-1)]">{t}</div>
+                  <div className="mt-1 text-[11px] text-[var(--color-fg-3)]">{d}</div>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="flex w-full max-w-[340px] shrink-0 flex-col gap-2.5 lg:w-[340px]">
+            <p className="text-center text-[10px] font-medium uppercase tracking-wider text-[var(--color-fg-3)] lg:text-left">
+              Ilustração · valores fictícios
+            </p>
             <div className="flex items-center justify-between rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] px-4 py-3.5">
               <div>
                 <div className="mb-1 text-[9px] font-bold uppercase tracking-[0.07em] text-[var(--color-fg-3)]">Benchmark do setor</div>
@@ -358,7 +372,7 @@ export function LandingPage() {
             Diagnóstico completo em 3 etapas
           </h2>
           <p className="mx-auto max-w-[440px] text-base text-[var(--color-fg-2)]">
-            Da URL ao laudo com score e ações priorizadas — em menos de 2 minutos.
+            Da URL ao laudo com score, benchmark e ações priorizadas — em geral, poucos minutos após enviar o pedido.
           </p>
         </div>
         <div className="flex flex-col divide-y divide-[var(--color-border)] border-y border-[var(--color-border)] md:flex-row md:divide-x md:divide-y-0">
@@ -377,7 +391,7 @@ export function LandingPage() {
             {
               n: "02",
               title: "Análise neuropsicológica",
-              desc: "47 critérios avaliados automaticamente: atenção, confiança, urgência, clareza e fricção cognitiva.",
+              desc: "Dezenas de sinais de atenção, confiança, urgência, clareza e fricção cognitiva, cruzados com o texto real da página.",
               icon: (
                 <>
                   <circle cx="12" cy="12" r="10" />
@@ -420,7 +434,7 @@ export function LandingPage() {
           <div>
             <SecLabel>Metodologia científica</SecLabel>
             <h2 className="mb-4 font-display text-3xl font-bold leading-tight tracking-tight text-[var(--color-fg-1)]">
-              47 critérios baseados em pesquisa peer-reviewed
+              Framework inspirado em literatura de CRO e decisão humana
             </h2>
             <p className="mb-6 text-[15px] leading-relaxed text-[var(--color-fg-2)]">
               Nossa engine de análise combina princípios de neuroeconomia, psicologia da persuasão e UX research para identificar os
@@ -445,10 +459,10 @@ export function LandingPage() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             {[
-              { val: "47", label: "critérios avaliados", color: "var(--color-primary)" },
-              { val: "2.847", label: "laudos publicados", color: "var(--color-fg-1)" },
-              { val: "94%", label: "precisão diagnóstica", color: "var(--color-good)" },
-              { val: "< 2min", label: "tempo de análise", color: "var(--color-fg-1)" },
+              { val: "0–100", label: "score no laudo", color: "var(--color-primary)" },
+              { val: "5", label: "eixos no relatório", color: "var(--color-fg-1)" },
+              { val: "3+", label: "quick wins sugeridos", color: "var(--color-good)" },
+              { val: "1", label: "laudo free por conta", color: "var(--color-fg-1)" },
             ].map((m) => (
               <div key={m.val} className="rounded-[10px] border border-[var(--color-border)] bg-[var(--color-bg-elevated)] p-5">
                 <div className="mb-1.5 font-display text-[30px] font-bold leading-none tracking-tight" style={{ color: m.color }}>
@@ -473,24 +487,27 @@ export function LandingPage() {
               name: "Free",
               price: "R$ 0",
               period: "/mês",
-              desc: "Para explorar a plataforma",
-              features: ["1 laudo por mês", "Score 0–100", "Top problemas e quick wins", "Ideal para validar a ideia"],
-              cta: "Começar grátis",
+              desc: "Para validar o laudo na sua própria página",
+              features: [
+                "1 laudo incluído por conta (sem créditos mensais automáticos)",
+                "Score 0–100 e benchmark no texto",
+                "Achados por severidade e quick wins",
+              ],
+              cta: "Criar conta",
               primary: false,
             },
             {
               name: "Pro",
               price: "R$ 297",
               period: "/mês",
-              desc: "Para times e agências",
+              desc: "Para equipas que geram laudos todos os meses",
               features: [
-                "10 laudos por mês",
-                "Laudo completo com categorias",
-                "Recomendações priorizadas",
-                "Histórico e comparações",
-                "● Monitoramento mensal automático",
+                "10 laudos por ciclo de faturação (renovados a cada fatura paga)",
+                "7 dias de teste no Stripe antes da primeira cobrança",
+                "Laudo completo com categorias e referências por achado",
+                "Histórico na mesma conta",
               ],
-              cta: "Assinar Pro",
+              cta: "Começar no Pro",
               primary: true,
             },
             {
@@ -513,7 +530,7 @@ export function LandingPage() {
             >
               {pl.primary ? (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[var(--color-primary)] px-3.5 py-1 text-[11px] font-semibold text-white">
-                  Mais popular
+                  7 dias de teste
                 </div>
               ) : null}
               <div>
@@ -526,37 +543,14 @@ export function LandingPage() {
               </div>
               <div className="h-px bg-[var(--color-border)]" />
               <ul className="flex flex-1 flex-col gap-2">
-                {pl.features.map((f) => {
-                  const isMonitoring = f.startsWith("●");
-                  const label = isMonitoring ? f.slice(2) : f;
-                  return (
-                    <li
-                      key={f}
-                      className={
-                        isMonitoring
-                          ? "flex items-center gap-2 rounded-md border border-[color:rgba(29,158,117,0.15)] bg-[var(--color-primary-muted)] px-2 py-1.5"
-                          : "flex items-center gap-2"
-                      }
-                    >
-                      {isMonitoring ? (
-                        <>
-                          <span className="relative flex h-1.5 w-1.5">
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-primary)] opacity-75" />
-                            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[var(--color-primary)]" />
-                          </span>
-                          <span className="text-xs font-semibold text-[var(--color-primary)]">{label}</span>
-                        </>
-                      ) : (
-                        <>
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
-                            <polyline points="20,6 9,17 4,12" />
-                          </svg>
-                          <span className="text-[13px] text-[var(--color-fg-2)]">{label}</span>
-                        </>
-                      )}
-                    </li>
-                  );
-                })}
+                {pl.features.map((f) => (
+                  <li key={f} className="flex items-center gap-2">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="2.5" strokeLinecap="round" aria-hidden>
+                      <polyline points="20,6 9,17 4,12" />
+                    </svg>
+                    <span className="text-[13px] text-[var(--color-fg-2)]">{f}</span>
+                  </li>
+                ))}
               </ul>
               {pl.primary ? (
                 <Link
@@ -567,7 +561,7 @@ export function LandingPage() {
                 </Link>
               ) : pl.name === "Agency" ? (
                 <a
-                  href="mailto:contato@neuroconvert.com"
+                  href="mailto:team@klarivy.com"
                   className="flex h-10 items-center justify-center rounded-lg border border-[var(--color-border)] text-[13px] font-semibold text-[var(--color-fg-2)] transition hover:border-[var(--color-border-strong)] hover:text-[var(--color-fg-1)]"
                 >
                   {pl.cta}
@@ -583,22 +577,16 @@ export function LandingPage() {
             </div>
           ))}
         </div>
-        <div className="mt-8 flex flex-col gap-4 rounded-xl border border-[color:rgba(29,158,117,0.2)] bg-[linear-gradient(135deg,rgba(29,158,117,0.07),rgba(29,158,117,0.03))] p-5 md:flex-row md:items-center">
-          <div className="flex shrink-0 items-center gap-2">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-primary)] opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--color-primary)]" />
-            </span>
-            <span className="whitespace-nowrap font-display text-sm font-bold text-[var(--color-primary)]">Monitoramento mensal</span>
-          </div>
-          <div className="hidden h-8 w-px shrink-0 bg-[color:rgba(29,158,117,0.2)] md:block" />
-          <p className="flex-1 text-[13px] leading-relaxed text-[var(--color-fg-2)]">
-            Incluído no Plano Pro. A cada 30 dias, re-analisamos sua página automaticamente e enviamos um relatório comparando o score
-            atual com o anterior — sem você precisar lembrar.
+        <div className="mt-8 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-surface)] p-5">
+          <p className="text-[13px] leading-relaxed text-[var(--color-fg-2)]">
+            <strong className="text-[var(--color-fg-1)]">Monitorização automática mensal</strong> (re-análise agendada e e-mail
+            comparativo) está em <strong className="text-[var(--color-fg-1)]">roadmap</strong> — não faz parte do produto hoje. Os 10
+            laudos Pro são gerados manualmente na app até lá. Dúvidas ou prioridades:{" "}
+            <a href="mailto:team@klarivy.com" className="font-semibold text-[var(--color-primary)] underline">
+              team@klarivy.com
+            </a>
+            .
           </p>
-          <span className="shrink-0 self-start rounded-full border border-[color:rgba(29,158,117,0.2)] bg-[var(--color-primary-muted)] px-2.5 py-1 text-[11px] font-semibold text-[var(--color-primary)] md:self-center">
-            Pro
-          </span>
         </div>
       </section>
 
@@ -608,10 +596,12 @@ export function LandingPage() {
             <div className="mb-3 flex items-center gap-2">
               <LogoMark className="h-5 w-5" />
               <span className="font-display text-sm font-bold text-[var(--color-fg-1)]">
-                Neuro<span className="text-[var(--color-primary)]">Convert</span>
+                Klar<span className="text-[var(--color-primary)]">ivy</span>
               </span>
             </div>
-            <p className="text-xs leading-relaxed text-[var(--color-fg-3)]">Neuromarketing aplicado à otimização de conversão.</p>
+            <p className="text-xs leading-relaxed text-[var(--color-fg-3)]">
+              Laudos de conversão com base na metodologia NeuroConvert.
+            </p>
           </div>
           {[
             { title: "Produto", links: ["Como funciona", "Preços", "Dashboard"] as const },
@@ -647,7 +637,7 @@ export function LandingPage() {
           ))}
         </div>
         <div className="mx-auto mt-8 flex max-w-[1100px] justify-between border-t border-[var(--color-border)] pt-6">
-          <span className="text-[11px] text-[var(--color-fg-3)]">© 2026 NeuroConvert.</span>
+          <span className="text-[11px] text-[var(--color-fg-3)]">© 2026 Klarivy · metodologia NeuroConvert</span>
           <span className="font-mono text-[10px] text-[var(--color-fg-3)]">v1.0.0</span>
         </div>
       </footer>

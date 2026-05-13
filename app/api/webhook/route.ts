@@ -242,6 +242,57 @@ export async function POST(req: Request) {
           stripe_invoice_id: inv.id,
           paid_at: new Date().toISOString(),
         });
+
+        /** Renovar teto de laudos no início de cada ciclo de faturação (Pro/Agency). */
+        if (inv.billing_reason === "subscription_cycle") {
+          const subId =
+            typeof inv.subscription === "string"
+              ? inv.subscription
+              : inv.subscription && typeof inv.subscription === "object" && "id" in inv.subscription
+                ? (inv.subscription as { id: string }).id
+                : null;
+          if (subId) {
+            const { data: renewUser } = await supabase
+              .from("users")
+              .select("id, plan")
+              .eq("stripe_subscription_id", subId)
+              .maybeSingle();
+
+            if (
+              renewUser &&
+              (renewUser.plan === "pro" || renewUser.plan === "agency")
+            ) {
+              const credits = renewUser.plan === "agency" ? 9999 : 10;
+              const { error: renewErr } = await supabase
+                .from("users")
+                .update({ credits_remaining: credits })
+                .eq("id", renewUser.id);
+
+              if (renewErr) {
+                await logEvent(
+                  "stripe_invoice_paid_credit_renewal_failed",
+                  {
+                    message: renewErr.message,
+                    invoiceId: inv.id,
+                    userId: renewUser.id,
+                  },
+                  "critical"
+                );
+              } else {
+                await logEvent(
+                  "stripe_subscription_credits_renewed",
+                  {
+                    userId: renewUser.id,
+                    plan: renewUser.plan,
+                    credits,
+                    invoiceId: inv.id,
+                  },
+                  "info"
+                );
+              }
+            }
+          }
+        }
         break;
       }
 

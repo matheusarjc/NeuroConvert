@@ -10,9 +10,10 @@ import { getBrowserSupabase } from "@/lib/supabase/browser";
 export type ReportShape = {
   score: number;
   score_label?: string;
+  benchmark?: string;
   headline?: string;
-  sections?: { title: string; finding: string; severity?: string }[];
-  quick_wins?: { rank: number; action: string; impact?: string }[];
+  sections?: { title: string; finding: string; severity?: string; science?: string }[];
+  quick_wins?: { rank: number; action: string; impact?: string; science?: string }[];
 };
 
 type AnalyzeClientProps = {
@@ -170,7 +171,7 @@ export function AnalyzeClient({ showBackLink = true }: AnalyzeClientProps) {
             </Link>
           </nav>
         ) : null}
-        A carregar…
+        Carregando…
       </main>
     );
   }
@@ -258,8 +259,9 @@ export function AnalyzeClient({ showBackLink = true }: AnalyzeClientProps) {
       <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)]">Análise</p>
       <h1 className="mt-2 font-display text-3xl font-bold tracking-tight">Gerar laudo</h1>
       <p className="mt-3 text-[var(--color-fg-2)]">
-        Plano <strong className="text-[var(--color-fg-1)]">free</strong>: 1 análise por ciclo de faturação. Os créditos são
-        aplicados automaticamente à sua conta.
+        Plano <strong className="text-[var(--color-fg-1)]">gratuito</strong>: inclui <strong className="text-[var(--color-fg-1)]">1 laudo</strong>{" "}
+        associado à sua conta. Não há créditos mensais automáticos no free — para continuar a gerar laudos, faça upgrade para o Pro
+        (10 laudos por ciclo de faturação, renovados a cada fatura paga).
       </p>
 
       <form id={formId} onSubmit={submitAnalyze} className="mt-8 space-y-5">
@@ -318,7 +320,7 @@ export function AnalyzeClient({ showBackLink = true }: AnalyzeClientProps) {
           disabled={loading}
           className="rounded-lg bg-[var(--color-primary)] px-5 py-2.5 text-sm font-semibold text-white outline-none ring-[var(--color-primary)] hover:bg-[var(--color-primary-light)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-base)] disabled:opacity-60"
         >
-          {loading ? "A analisar…" : "Gerar laudo"}
+          {loading ? "Gerando laudo…" : "Gerar laudo"}
         </button>
       </form>
 
@@ -332,8 +334,10 @@ export function AnalyzeClient({ showBackLink = true }: AnalyzeClientProps) {
               Limite do plano free
             </h2>
             <p className="mt-2 text-sm text-[var(--color-fg-2)]">
-              Você já usou a análise gratuita deste período. Para continuar gerando laudos, assine o Pro — use o mesmo e-mail da
-              sua conta.
+              Já utilizou o laudo incluído no plano gratuito. Para continuar, subscreva o <strong className="text-[var(--color-fg-1)]">Pro</strong>{" "}
+              — o checkout inclui <strong className="text-[var(--color-fg-1)]">7 dias de teste</strong> (Stripe) antes da primeira
+              cobrança. Indique <strong className="text-[var(--color-fg-1)]">o mesmo e-mail</strong> com que iniciou sessão; caso contrário,
+              o pagamento é recusado por segurança.
             </p>
             <form onSubmit={submitCheckout} className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
               <div className="flex-1">
@@ -355,7 +359,7 @@ export function AnalyzeClient({ showBackLink = true }: AnalyzeClientProps) {
                 disabled={checkoutLoading}
                 className="rounded-lg bg-[var(--color-primary)] px-4 py-2 text-sm font-semibold text-white outline-none ring-[var(--color-primary)] hover:bg-[var(--color-primary-light)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-base)] disabled:opacity-60"
               >
-                {checkoutLoading ? "…" : "Subscrever Pro"}
+                {checkoutLoading ? "Preparando…" : "Subscrever Pro"}
               </button>
             </form>
           </section>
@@ -380,6 +384,12 @@ export function AnalyzeClient({ showBackLink = true }: AnalyzeClientProps) {
             <p className="text-sm text-[var(--color-fg-2)]">Score</p>
             <p className="font-display text-4xl font-bold text-[var(--color-primary)]">{report.score}</p>
             {report.score_label && <p className="text-sm text-[var(--color-fg-2)]">{report.score_label}</p>}
+            {report.benchmark && (
+              <p className="mt-3 text-sm leading-relaxed text-[var(--color-fg-2)]">
+                <span className="font-medium text-[var(--color-fg-1)]">Benchmark: </span>
+                {report.benchmark}
+              </p>
+            )}
             {report.headline && <p className="mt-4 text-lg text-[var(--color-fg-1)]">{report.headline}</p>}
             {report.sections && report.sections.length > 0 && (
               <ul className="mt-6 space-y-4">
@@ -387,6 +397,12 @@ export function AnalyzeClient({ showBackLink = true }: AnalyzeClientProps) {
                   <li key={s.title} className="border-l-2 border-[var(--color-primary)] pl-4">
                     <h3 className="font-medium text-[var(--color-fg-1)]">{s.title}</h3>
                     <p className="mt-1 text-sm text-[var(--color-fg-2)]">{s.finding}</p>
+                    {s.science ? (
+                      <p className="mt-2 text-xs leading-relaxed text-[var(--color-fg-3)]">
+                        <span className="font-medium text-[var(--color-fg-2)]">Referência: </span>
+                        {s.science}
+                      </p>
+                    ) : null}
                   </li>
                 ))}
               </ul>
@@ -394,16 +410,25 @@ export function AnalyzeClient({ showBackLink = true }: AnalyzeClientProps) {
             {report.quick_wins && report.quick_wins.length > 0 && (
               <div className="mt-6">
                 <h3 className="text-sm font-semibold uppercase tracking-wide text-[var(--color-fg-2)]">Quick wins</h3>
-                <ol className="mt-2 list-decimal space-y-2 pl-5 text-sm text-[var(--color-fg-2)]">
+                <ol className="mt-2 list-decimal space-y-3 pl-5 text-sm text-[var(--color-fg-2)]">
                   {report.quick_wins.map((q) => (
                     <li key={q.rank}>
-                      {q.action}
+                      <span className="text-[var(--color-fg-1)]">{q.action}</span>
                       {q.impact ? <span className="text-[var(--color-primary)]"> — {q.impact}</span> : null}
+                      {q.science ? (
+                        <p className="mt-1 text-xs leading-relaxed text-[var(--color-fg-3)]">
+                          <span className="font-medium text-[var(--color-fg-2)]">Porquê: </span>
+                          {q.science}
+                        </p>
+                      ) : null}
                     </li>
                   ))}
                 </ol>
               </div>
             )}
+            <p className="mt-6 border-t border-[var(--color-border)] pt-4 text-xs text-[var(--color-fg-3)]">
+              Sugestões com base em heurísticas de CRO e literatura de psicologia aplicada — valide com o seu contexto e testes A/B.
+            </p>
           </article>
         )}
       </div>

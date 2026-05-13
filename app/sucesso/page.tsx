@@ -9,10 +9,15 @@ export default function SucessoPage({ searchParams }: Props) {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-lg flex-col justify-center bg-[var(--color-bg-base)] px-6 py-16 text-center text-[var(--color-fg-1)]">
-      <p className="text-sm font-semibold uppercase tracking-widest text-[var(--color-primary)]">NeuroConvert</p>
+      <p className="text-sm font-semibold uppercase tracking-widest text-[var(--color-primary)]">Klarivy</p>
       <h1 className="mt-4 font-display text-3xl font-bold">Pagamento recebido</h1>
       <p className="mt-4 text-[var(--color-fg-2)]">
-        O Stripe confirmou a sessão. O webhook ativa o plano Pro e os créditos — em segundos você pode voltar a gerar laudos.
+        O Stripe confirmou a sessão. O nosso servidor ativa o plano Pro e os créditos via webhook — em geral leva segundos. Se o
+        plano não atualizar, atualize a página ou volte mais tarde; em caso de falha prolongada do webhook, contacte{" "}
+        <a href="mailto:team@klarivy.com" className="font-medium text-[var(--color-primary)] underline">
+          team@klarivy.com
+        </a>{" "}
+        com o <span className="font-mono text-[var(--color-fg-1)]">session_id</span> abaixo para reconciliação manual.
       </p>
       {sid ? (
         <p className="mt-6 font-mono text-xs text-[var(--color-fg-3)]">

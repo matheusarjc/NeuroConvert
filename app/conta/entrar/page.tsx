@@ -44,7 +44,7 @@ function EntrarForm() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center bg-[var(--color-bg-base)] px-6 py-16 text-[var(--color-fg-1)]">
-      <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)]">NeuroConvert</p>
+      <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-primary)]">Klarivy</p>
       <h1 className="mt-2 font-display text-2xl font-bold">Entrar</h1>
       <p className="mt-2 text-sm text-[var(--color-fg-2)]">Acesse para gerar laudos com seus créditos.</p>
 
@@ -87,7 +87,7 @@ function EntrarForm() {
           disabled={loading}
           className="w-full rounded-lg bg-[var(--color-primary)] py-2.5 text-sm font-semibold text-white outline-none ring-[var(--color-primary)] hover:bg-[var(--color-primary-light)] focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-base)] disabled:opacity-60"
         >
-          {loading ? "A entrar…" : "Entrar"}
+          {loading ? "Entrando…" : "Entrar"}
         </button>
       </form>
 
@@ -106,7 +106,7 @@ function EntrarForm() {
 
 export default function EntrarPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[var(--color-bg-base)] px-6 py-16 text-[var(--color-fg-2)]">A carregar…</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-[var(--color-bg-base)] px-6 py-16 text-[var(--color-fg-2)]">Carregando…</div>}>
       <EntrarForm />
     </Suspense>
   );
